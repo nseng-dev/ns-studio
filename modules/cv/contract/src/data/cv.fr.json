@@ -1,0 +1,155 @@
+{
+  "profil": {
+    "nom": "Nathan SENG",
+    "titre": "Développeur Web Junior",
+    "accroche": "Titulaire d'une Licence Professionnelle, spécialisation en applications de gestion pour les entreprises.",
+    "localisation": "Épinal, Vosges (88)",
+    "email": "nara-seng@hotmail.com",
+    "permis": "Permis B — véhicule léger",
+    "liens": []
+  },
+  "experiences": [
+    {
+      "debut": "02/2020",
+      "fin": "07/2021",
+      "poste": "Analyste Développeur",
+      "entreprise": "CTG",
+      "lieu": "Luxembourg PSF",
+      "details": [
+        "CTG interne — maintenance applicative, domaine juridique.",
+        "IBM — gestion des accès et des créations de compte, domaine bancaire."
+      ]
+    },
+    {
+      "debut": "03/2019",
+      "fin": "06/2019",
+      "poste": "Stagiaire Développeur Web Full-Stack",
+      "entreprise": "CTG",
+      "lieu": "Luxembourg",
+      "details": ["Application de gestion de déchets, côté utilisateur et côté administrateur."]
+    },
+    {
+      "debut": "04/2018",
+      "fin": "06/2018",
+      "poste": "Stagiaire Développeur Web Back-end",
+      "entreprise": "Sogeti",
+      "lieu": "Luxembourg",
+      "details": ["Interprétation de commandes Linux via URL."]
+    },
+    {
+      "debut": "02/2014",
+      "fin": "03/2015",
+      "poste": "Agent de production",
+      "entreprise": "Sotradest",
+      "lieu": "Charmes",
+      "details": ["Ouvrier qualifié."]
+    },
+    {
+      "debut": "05/2011",
+      "fin": "01/2014",
+      "poste": "Installateur thermique et sanitaire — intérim",
+      "entreprise": "SARL Patrick Roussel, Imhoff, Idex",
+      "lieu": "Golbey et Épinal",
+      "details": ["Ouvrier qualifié."]
+    },
+    {
+      "debut": "03/2009",
+      "fin": "06/2010",
+      "poste": "Cuisinier",
+      "entreprise": "Lotus Bleu",
+      "lieu": "Épinal"
+    },
+    {
+      "debut": "08/2006",
+      "fin": "02/2009",
+      "poste": "Cuisinier",
+      "entreprise": "Kim Hoa",
+      "lieu": "Nancy"
+    }
+  ],
+  "formations": [
+    {
+      "debut": "2018",
+      "fin": "2019",
+      "intitule": "Licence Professionnelle AIMO",
+      "precision": "Applications Mobiles et Internet des Objets",
+      "etablissement": "IUT de Saint-Dié-des-Vosges, Université de Lorraine"
+    },
+    {
+      "debut": "2016",
+      "fin": "2018",
+      "intitule": "DUT Informatique",
+      "etablissement": "IUT de Saint-Dié-des-Vosges, Université de Lorraine"
+    },
+    {
+      "debut": "2015",
+      "fin": "2016",
+      "intitule": "DAEU",
+      "precision": "Diplôme d'Accès aux Études Universitaires",
+      "etablissement": "Faculté des Sciences et Technologies, Vandœuvre-lès-Nancy"
+    },
+    {
+      "debut": "2010",
+      "fin": "2011",
+      "intitule": "Titre d'Installateur Thermique et Sanitaire",
+      "etablissement": "AFPA, Golbey"
+    }
+  ],
+  "competences": [
+    {
+      "libelle": "Développement",
+      "items": [
+        "Développement Full-Stack",
+        "Conception de programmation",
+        "Gestion de projets agiles"
+      ]
+    },
+    {
+      "libelle": "Outils et technologies",
+      "items": [
+        "Java, Java EE",
+        "Spring, Spring Boot",
+        "JavaScript, TypeScript",
+        "Angular, React",
+        "Docker, Docker Compose",
+        "PostgreSQL",
+        "Git, Maven"
+      ]
+    },
+    {
+      "libelle": "Connaissances",
+      "items": [
+        "PHP",
+        "C, C++",
+        "Python",
+        "Laravel, Symfony",
+        "Bootstrap",
+        "MySQL, SQLite, SQL",
+        "Gerrit, Sonar, Jenkins",
+        "Node.js"
+      ]
+    },
+    {
+      "libelle": "Savoir-être",
+      "items": ["Autonomie", "Rigueur", "Curiosité", "Capacité d'adaptation", "Travail d'équipe"]
+    }
+  ],
+  "langues": [
+    { "langue": "Cambodgien", "niveau": "Langue maternelle" },
+    { "langue": "Français", "niveau": "Courant" },
+    { "langue": "Chinois", "niveau": "Courant" },
+    { "langue": "Anglais technique", "niveau": "Intermédiaire" }
+  ],
+  "interets": [
+    {
+      "libelle": "Autoformation",
+      "details": "Informatique — React, TypeScript, Angular, Spring"
+    },
+    { "libelle": "Bricolage", "details": "Menuiserie bois et métal" },
+    {
+      "libelle": "Sport",
+      "details": "Taekwondo (ceinture noire), VTT et route — 60 à 100 km par semaine"
+    }
+  ],
+  "misAJour": "2021-09"
+}

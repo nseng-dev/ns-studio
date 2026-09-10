@@ -1,0 +1,28 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "nara-platform",
+
+  // Le point d'entrée est du TypeScript : wrangler le compile lui-même, au déploiement comme
+  // en développement. C'est pourquoi `apps/api` n'a ni `tsc`, ni `dist/`.
+  "main": "apps/api/src/index.ts",
+  "compatibility_date": "2026-09-10",
+
+  "assets": {
+    // Sortie de `ng build` — le projet Angular s'appelle « web », d'où `dist/web/browser`.
+    "directory": "./apps/web/dist/web/browser",
+
+    // Toute route inconnue rend `index.html` : c'est le routeur Angular qui décide ensuite.
+    // Sans cela, recharger la page sur /cv renverrait un 404.
+    "not_found_handling": "single-page-application",
+
+    "binding": "ASSETS",
+
+    // L'aiguillage de toute l'architecture. Sans cette ligne, `/api/cv` serait avalé par le
+    // repli SPA ci-dessus et renverrait du HTML au lieu du JSON.
+    "run_worker_first": ["/api/*"],
+  },
+
+  "observability": {
+    "enabled": true,
+  },
+}

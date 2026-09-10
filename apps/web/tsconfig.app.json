@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [],
+    /*
+     * Les composants d'un module sont livrés en source, pas compilés : c'est l'application hôte
+     * qui les intègre à son propre programme TypeScript. Sans ce chemin, Angular chercherait un
+     * paquet publié dans node_modules et ne trouverait que du TypeScript qu'il refuserait de
+     * compiler. Un module qui s'ajoute ajoute une ligne ici.
+     */
+    "paths": {
+      "@nara/cv-ui": ["../../modules/cv/ui/src/index.ts"]
+    }
+  },
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts"]
+}

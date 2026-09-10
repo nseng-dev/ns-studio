@@ -1,0 +1,22 @@
+{
+  "name": "@nara/cv-contract",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Le contrat du module CV : types, validation et données. Importé par l'API Hono comme par l'interface Angular — c'est ce qui les empêche de diverger.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch"
+  }
+}

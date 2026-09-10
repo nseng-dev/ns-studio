@@ -1,0 +1,137 @@
+@if (ressource.isLoading()) {
+  <p class="etat" role="status">Chargement du CV…</p>
+} @else if (ressource.error()) {
+  <p class="etat etat--erreur" role="alert">
+    Le CV n'a pas pu être chargé.
+    <button type="button" class="reessayer" (click)="ressource.reload()">Réessayer</button>
+  </p>
+} @else if (cv(); as donnees) {
+  <article class="cv">
+    <header class="entete">
+      <h1 class="nom">{{ donnees.profil.nom }}</h1>
+      <p class="titre">{{ donnees.profil.titre }}</p>
+      <p class="accroche">{{ donnees.profil.accroche }}</p>
+
+      <ul class="coordonnees">
+        <li>{{ donnees.profil.localisation }}</li>
+        @if (donnees.profil.email; as email) {
+          <li>
+            <a [href]="'mailto:' + email">{{ email }}</a>
+          </li>
+        }
+        @if (donnees.profil.permis; as permis) {
+          <li>{{ permis }}</li>
+        }
+        @for (lien of donnees.profil.liens; track lien.url) {
+          <li>
+            <a [href]="lien.url" rel="noopener">{{ lien.libelle }}</a>
+          </li>
+        }
+      </ul>
+    </header>
+
+    <div class="corps">
+      <div class="principal">
+        <section class="bloc">
+          <h2 class="bloc__titre">Expériences professionnelles</h2>
+          <ol class="parcours">
+            @for (exp of donnees.experiences; track $index) {
+              <li class="poste">
+                <p class="periode">
+                  <time>{{ exp.debut }}</time>
+                  <span aria-hidden="true"> → </span>
+                  <time>{{ exp.fin }}</time>
+                </p>
+                <h3 class="poste__intitule">{{ exp.poste }}</h3>
+                <p class="poste__employeur">
+                  {{ exp.entreprise }}
+                  @if (exp.lieu; as lieu) {
+                    <span class="poste__lieu"> · {{ lieu }}</span>
+                  }
+                </p>
+                @if (exp.details?.length) {
+                  <ul class="details">
+                    @for (detail of exp.details; track $index) {
+                      <li>{{ detail }}</li>
+                    }
+                  </ul>
+                }
+                @if (exp.technologies?.length) {
+                  <ul class="etiquettes">
+                    @for (techno of exp.technologies; track techno) {
+                      <li>{{ techno }}</li>
+                    }
+                  </ul>
+                }
+              </li>
+            }
+          </ol>
+        </section>
+
+        <section class="bloc">
+          <h2 class="bloc__titre">Formations</h2>
+          <ol class="parcours">
+            @for (formation of donnees.formations; track $index) {
+              <li class="poste">
+                <p class="periode">
+                  <time>{{ formation.debut }}</time>
+                  <span aria-hidden="true"> → </span>
+                  <time>{{ formation.fin }}</time>
+                </p>
+                <h3 class="poste__intitule">{{ formation.intitule }}</h3>
+                @if (formation.precision; as precision) {
+                  <p class="poste__precision">{{ precision }}</p>
+                }
+                <p class="poste__employeur">{{ formation.etablissement }}</p>
+              </li>
+            }
+          </ol>
+        </section>
+      </div>
+
+      <aside class="cote">
+        <section class="bloc">
+          <h2 class="bloc__titre">Compétences</h2>
+          @for (groupe of donnees.competences; track groupe.libelle) {
+            <div class="groupe">
+              <h3 class="groupe__titre">{{ groupe.libelle }}</h3>
+              <ul class="etiquettes">
+                @for (item of groupe.items; track item) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            </div>
+          }
+        </section>
+
+        <section class="bloc">
+          <h2 class="bloc__titre">Langues</h2>
+          <ul class="langues">
+            @for (langue of donnees.langues; track langue.langue) {
+              <li>
+                <span class="langues__nom">{{ langue.langue }}</span>
+                <span class="langues__niveau">{{ langue.niveau }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+
+        <section class="bloc">
+          <h2 class="bloc__titre">Centres d'intérêt</h2>
+          <ul class="interets">
+            @for (interet of donnees.interets; track interet.libelle) {
+              <li>
+                <span class="interets__nom">{{ interet.libelle }}</span>
+                <span class="interets__detail">{{ interet.details }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      </aside>
+    </div>
+
+    @if (derniereMiseAJour(); as date) {
+      <footer class="pied">Contenu mis à jour en {{ date }}.</footer>
+    }
+  </article>
+}

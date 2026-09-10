@@ -1,0 +1,15 @@
+{
+  "name": "@nara/cv-ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Les composants Angular du module CV. Livrés en source : c'est l'application hôte qui les compile, via un chemin déclaré dans son tsconfig.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@nara/cv-contract": "*"
+  }
+}

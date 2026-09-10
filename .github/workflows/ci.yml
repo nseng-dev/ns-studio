@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Un nouveau push sur une PR annule le run précédent : inutile de payer deux fois.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Build, tests et déploiement
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      # La version de Node vient de .nvmrc : une seule source de vérité, partagée avec les
+      # postes de développement. Angular 22 exige >= 22.22.3.
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Installation
+        run: npm ci
+
+      # Le CV est le seul contenu du site : s'il ne respecte plus son contrat, il n'y a
+      # rien à afficher. C'est la garde la plus importante de ce fichier, d'où sa place
+      # avant tout le reste.
+      - name: Le CV est valide
+        run: npm test
+
+      - name: Build (contrat, puis interface Angular)
+        run: npm run build
+
+      # Répétition générale du déploiement, sans rien envoyer : wrangler assemble le Worker
+      # et relit le dossier d'assets. Une erreur de configuration se voit donc sur la PR,
+      # et non une fois en production.
+      - name: Le Worker s'assemble
+        if: github.event_name == 'pull_request'
+        run: npx wrangler deploy --dry-run
+
+      # Seul `main` déploie. Le secret CLOUDFLARE_API_TOKEN se pose dans
+      # Settings → Secrets and variables → Actions.
+      - name: Déploiement sur Cloudflare Workers
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

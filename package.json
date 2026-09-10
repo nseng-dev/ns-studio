@@ -1,0 +1,34 @@
+{
+  "name": "nara-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plateforme personnelle de Nathan SENG : un Worker Cloudflare, des modules indépendants. Premier module — le CV.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.3"
+  },
+  "workspaces": [
+    "packages/*",
+    "modules/*/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build:contract": "npm run build --workspace @nara/cv-contract",
+    "build:web": "npm run build --workspace @nara/web",
+    "build": "npm run build:contract && npm run build:web",
+    "dev": "npm run build:contract && concurrently -n api,web -c cyan,magenta \"tsx watch apps/api/src/dev-node.ts\" \"npm run start --workspace @nara/web\"",
+    "dev:api": "npm run build:contract && tsx watch apps/api/src/dev-node.ts",
+    "dev:web": "npm run build:contract && npm run start --workspace @nara/web",
+    "test": "node --import tsx --test modules/cv/contract/test/*.test.ts",
+    "deploy": "npm run build && wrangler deploy",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "concurrently": "^9.2.1",
+    "prettier": "^3.8.1",
+    "tsx": "^4.23.13",
+    "typescript": "~6.0.3",
+    "wrangler": "^4.45.0"
+  }
+}

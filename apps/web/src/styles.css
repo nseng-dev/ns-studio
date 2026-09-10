@@ -1,0 +1,3 @@
+/* Le socle de la plateforme. Tout le reste vit dans les styles des composants de chaque module. */
+@import '@nara/ui/tokens.css';
+@import '@nara/ui/base.css';

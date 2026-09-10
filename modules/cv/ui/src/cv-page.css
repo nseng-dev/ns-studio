@@ -1,0 +1,339 @@
+/**
+ * La mise en page du CV.
+ *
+ * Trois rendus pour une seule feuille de style, sans une ligne de JavaScript : deux colonnes sur
+ * écran large, une seule sous 760 px, et une version imprimable. Les couleurs viennent toutes de
+ * `@nara/ui` — c'est ce qui rend le thème sombre et l'impression gratuits.
+ */
+
+:host {
+  display: block;
+  padding: var(--nara-espace-7) var(--nara-espace-5);
+}
+
+.cv {
+  max-width: var(--nara-largeur-page);
+  margin: 0 auto;
+}
+
+/* ---------------- En-tête ---------------- */
+
+.entete {
+  padding-bottom: var(--nara-espace-5);
+  border-bottom: 1px solid var(--nara-trait-fort);
+}
+
+.nom {
+  font-family: var(--nara-police-titre);
+  font-size: var(--nara-taille-xxl);
+  letter-spacing: -0.02em;
+}
+
+.titre {
+  margin-top: var(--nara-espace-1);
+  color: var(--nara-accent);
+  font-size: var(--nara-taille-xl);
+  font-weight: 500;
+}
+
+.accroche {
+  max-width: 52ch;
+  margin-top: var(--nara-espace-3);
+  color: var(--nara-encre-douce);
+}
+
+.coordonnees {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-top: var(--nara-espace-4);
+  color: var(--nara-encre-douce);
+  font-size: var(--nara-taille-s);
+}
+
+/*
+ * Le séparateur est porté par l'élément qui *précède*, pas par celui qui suit : ainsi il reste
+ * collé à lui au passage à la ligne. Placé en `::before` sur le suivant, il ouvrirait la ligne
+ * par un point isolé dès que les coordonnées se replient — ce qui arrive sur mobile.
+ */
+.coordonnees li:not(:last-child)::after {
+  content: '·';
+  margin: 0 var(--nara-espace-2);
+  color: var(--nara-trait-fort);
+}
+
+/* ---------------- Grille ---------------- */
+
+.corps {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+  gap: var(--nara-espace-7);
+  margin-top: var(--nara-espace-6);
+}
+
+.principal,
+.cote {
+  display: grid;
+  gap: var(--nara-espace-6);
+  align-content: start;
+}
+
+.bloc__titre {
+  margin-bottom: var(--nara-espace-4);
+  padding-bottom: var(--nara-espace-2);
+  border-bottom: 1px solid var(--nara-trait);
+  color: var(--nara-accent);
+  font-size: var(--nara-taille-xs);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/* ---------------- Parcours ---------------- */
+
+.parcours {
+  position: relative;
+  display: grid;
+  gap: var(--nara-espace-5);
+  padding-left: 22px;
+}
+
+/* Le fil vertical qui relie les postes entre eux. */
+.parcours::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 3px;
+  width: 1px;
+  background: var(--nara-trait);
+}
+
+.poste {
+  position: relative;
+}
+
+/* La pastille de chaque poste, centrée sur le fil. */
+.poste::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: -22px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--nara-accent);
+}
+
+.periode {
+  color: var(--nara-encre-faible);
+  font-size: var(--nara-taille-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.poste__intitule {
+  margin-top: var(--nara-espace-1);
+  font-size: var(--nara-taille-l);
+}
+
+.poste__precision {
+  color: var(--nara-encre-douce);
+  font-size: var(--nara-taille-s);
+}
+
+.poste__employeur {
+  color: var(--nara-encre-douce);
+  font-size: var(--nara-taille-m);
+  font-weight: 500;
+}
+
+.poste__lieu {
+  font-weight: 400;
+  color: var(--nara-encre-faible);
+}
+
+.details {
+  margin-top: var(--nara-espace-2);
+  display: grid;
+  gap: var(--nara-espace-1);
+}
+
+.details li {
+  position: relative;
+  padding-left: var(--nara-espace-4);
+  color: var(--nara-encre-douce);
+  font-size: var(--nara-taille-s);
+}
+
+.details li::before {
+  content: '';
+  position: absolute;
+  top: 0.6em;
+  left: 2px;
+  width: 4px;
+  height: 1px;
+  background: var(--nara-trait-fort);
+}
+
+/* ---------------- Colonne latérale ---------------- */
+
+.groupe + .groupe {
+  margin-top: var(--nara-espace-4);
+}
+
+.groupe__titre {
+  margin-bottom: var(--nara-espace-2);
+  color: var(--nara-encre-douce);
+  font-size: var(--nara-taille-s);
+  font-weight: 600;
+}
+
+.etiquettes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.etiquettes li {
+  padding: 3px 9px;
+  border: 1px solid var(--nara-trait);
+  border-radius: 999px;
+  background: var(--nara-accent-fond);
+  color: var(--nara-accent);
+  font-size: var(--nara-taille-xs);
+  line-height: 1.5;
+}
+
+.poste .etiquettes {
+  margin-top: var(--nara-espace-3);
+}
+
+.langues li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--nara-espace-4);
+  padding: var(--nara-espace-2) 0;
+  border-bottom: 1px dashed var(--nara-trait);
+  font-size: var(--nara-taille-s);
+}
+
+.langues li:last-child {
+  border-bottom: none;
+}
+
+.langues__niveau {
+  color: var(--nara-encre-faible);
+  text-align: right;
+}
+
+.interets li + li {
+  margin-top: var(--nara-espace-3);
+}
+
+.interets__nom {
+  display: block;
+  font-size: var(--nara-taille-s);
+  font-weight: 600;
+}
+
+.interets__detail {
+  color: var(--nara-encre-douce);
+  font-size: var(--nara-taille-s);
+}
+
+/* ---------------- Pied et états ---------------- */
+
+.pied {
+  margin-top: var(--nara-espace-7);
+  padding-top: var(--nara-espace-4);
+  border-top: 1px solid var(--nara-trait);
+  color: var(--nara-encre-faible);
+  font-size: var(--nara-taille-xs);
+}
+
+.etat {
+  max-width: var(--nara-largeur-page);
+  margin: 0 auto;
+  color: var(--nara-encre-douce);
+}
+
+.etat--erreur {
+  color: var(--nara-encre);
+}
+
+.reessayer {
+  margin-left: var(--nara-espace-2);
+  padding: 4px 12px;
+  border: 1px solid var(--nara-trait-fort);
+  border-radius: var(--nara-rayon);
+  background: var(--nara-surface);
+  color: inherit;
+  font: inherit;
+  font-size: var(--nara-taille-s);
+  cursor: pointer;
+}
+
+.reessayer:hover {
+  border-color: var(--nara-accent);
+  color: var(--nara-accent);
+}
+
+/* ---------------- Écran étroit ---------------- */
+
+@media (max-width: 760px) {
+  :host {
+    padding: var(--nara-espace-5) var(--nara-espace-4);
+  }
+
+  .corps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--nara-espace-6);
+  }
+
+  .nom {
+    font-size: 1.75rem;
+  }
+
+  .titre {
+    font-size: var(--nara-taille-l);
+  }
+}
+
+/* ---------------- Impression ---------------- */
+
+@media print {
+  :host {
+    padding: 0;
+  }
+
+  .cv {
+    max-width: none;
+  }
+
+  .corps {
+    gap: var(--nara-espace-6);
+    margin-top: var(--nara-espace-5);
+  }
+
+  .principal,
+  .cote {
+    gap: var(--nara-espace-5);
+  }
+
+  /* Un poste coupé en deux par un saut de page est illisible. */
+  .poste,
+  .bloc,
+  .groupe {
+    break-inside: avoid;
+  }
+
+  .bloc__titre {
+    border-bottom-color: #999;
+  }
+
+  /* Le bouton n'a aucun sens sur du papier. */
+  .reessayer {
+    display: none;
+  }
+}

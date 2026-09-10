@@ -1,0 +1,15 @@
+{
+  "name": "@nara/api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Le Worker Cloudflare : il monte les routes de chaque module et sert l'interface Angular.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "dependencies": {
+    "@nara/cv-api": "*",
+    "hono": "^4.13.5"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^2.1.1"
+  }
+}

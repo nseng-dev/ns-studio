@@ -3,6 +3,8 @@
 Plateforme personnelle de Nathan SENG. **Un seul Worker Cloudflare, des modules indépendants.**
 Le premier module est le CV.
 
+**En ligne : <https://atelier.nara-platform.workers.dev>**
+
 ```
                         Navigateur du visiteur
                                   │

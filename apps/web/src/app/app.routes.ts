@@ -11,7 +11,7 @@ export const routes: Routes = [
   {
     path: 'cv',
     title: 'Nathan SENG — Développeur Web',
-    loadComponent: () => import('@nara/cv-ui').then((m) => m.CvPage),
+    loadComponent: () => import('@latelier/cv-ui').then((m) => m.CvPage),
   },
 
   // Le CV est aujourd'hui le seul module : la racine y mène directement, pour que l'adresse la

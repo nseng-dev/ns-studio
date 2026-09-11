@@ -1,5 +1,5 @@
 {
-  "name": "@nara/cv-ui",
+  "name": "@latelier/cv-ui",
   "version": "1.0.0",
   "private": true,
   "description": "Les composants Angular du module CV. Livrés en source : c'est l'application hôte qui les compile, via un chemin déclaré dans son tsconfig.",
@@ -10,6 +10,6 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@nara/cv-contract": "*"
+    "@latelier/cv-contract": "*"
   }
 }

@@ -9,7 +9,7 @@ import { RouterOutlet } from '@angular/router';
  * commune se posera — et nulle part ailleurs.
  */
 @Component({
-  selector: 'nara-root',
+  selector: 'latelier-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet],
   template: '<router-outlet />',

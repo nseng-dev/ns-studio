@@ -10,7 +10,7 @@
      * compiler. Un module qui s'ajoute ajoute une ligne ici.
      */
     "paths": {
-      "@nara/cv-ui": ["../../modules/cv/ui/src/index.ts"]
+      "@latelier/cv-ui": ["../../modules/cv/ui/src/index.ts"]
     }
   },
   "files": ["src/main.ts"],

@@ -1,11 +1,12 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
 
-  // Ce nom est le premier segment de l'adresse publique : « atelier » donne
-  // atelier.nara-platform.workers.dev. Il est délibérément différent du nom du dépôt —
-  // le dépôt dit ce qu'est le projet, l'adresse dit ce que le visiteur va lire.
+  // Ce nom est le premier segment de l'adresse publique : « latelier » donne
+  // latelier.latech.workers.dev — « latech » étant le sous-domaine du compte Cloudflare,
+  // réglé sur le dashboard et non ici. Le dépôt porte le même nom, pour qu'un visiteur
+  // passant de GitHub au site ne se demande pas s'il est au bon endroit.
   // Le modifier crée un nouveau Worker : l'ancien reste en ligne jusqu'à suppression.
-  "name": "atelier",
+  "name": "latelier",
 
   // Le point d'entrée est du TypeScript : wrangler le compile lui-même, au déploiement comme
   // en développement. C'est pourquoi `apps/api` n'a ni `tsc`, ni `dist/`.

@@ -1,12 +1,12 @@
 {
-  "name": "@nara/api",
+  "name": "@latelier/api",
   "version": "1.0.0",
   "private": true,
   "description": "Le Worker Cloudflare : il monte les routes de chaque module et sert l'interface Angular.",
   "type": "module",
   "main": "./src/index.ts",
   "dependencies": {
-    "@nara/cv-api": "*",
+    "@latelier/cv-api": "*",
     "hono": "^4.13.5"
   },
   "devDependencies": {

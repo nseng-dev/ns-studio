@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "nara-web",
+      "name": "latelier-web",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev:web"],
       "port": 4200

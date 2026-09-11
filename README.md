@@ -1,9 +1,9 @@
-# nara-platform
+# latelier
 
 Plateforme personnelle de Nathan SENG. **Un seul Worker Cloudflare, des modules indépendants.**
 Le premier module est le CV.
 
-**En ligne : <https://atelier.nara-platform.workers.dev>**
+**En ligne : <https://latelier.latech.workers.dev>**
 
 ```
                         Navigateur du visiteur
@@ -13,7 +13,7 @@ Le premier module est le CV.
    │                                                                  │
    │   run_worker_first: ["/api/*"]      ◄── l'aiguillage, 1 ligne    │
    │                                                                  │
-   │   /api/cv  ──►  Hono  ──►  @nara/cv-contract  ──►  cv.fr.json   │
+   │   /api/cv  ──►  Hono  ──►  @latelier/cv-contract  ──►  cv.fr.json   │
    │                                                                  │
    │   /*       ──►  Static Assets  ──►  apps/web/dist/web/browser   │
    │                 not_found_handling: "single-page-application"    │
@@ -30,22 +30,22 @@ Un **module** est une tranche verticale : son contrat, son interface et ses rout
 même dossier, et bougent ensemble.
 
 ```
-nara-platform/
+latelier/
 ├── .nvmrc                       22.23.2
 ├── wrangler.jsonc               assets + run_worker_first
 ├── .github/workflows/ci.yml     build → tests → déploiement
 │
 ├── packages/
-│   └── ui/        @nara/ui              variables de thème, socle, impression
+│   └── ui/        @latelier/ui              variables de thème, socle, impression
 │
 ├── modules/cv/
-│   ├── contract/  @nara/cv-contract     types · valideCv() · cv.fr.json
-│   ├── ui/        @nara/cv-ui           la page Angular
-│   └── api/       @nara/cv-api          les routes Hono
+│   ├── contract/  @latelier/cv-contract     types · valideCv() · cv.fr.json
+│   ├── ui/        @latelier/cv-ui           la page Angular
+│   └── api/       @latelier/cv-api          les routes Hono
 │
 └── apps/
-    ├── api/       @nara/api             le Worker : monte les routes des modules
-    └── web/       @nara/web             la coquille Angular : routes paresseuses
+    ├── api/       @latelier/api             le Worker : monte les routes des modules
+    └── web/       @latelier/web             la coquille Angular : routes paresseuses
 ```
 
 `contract/` est importé **des deux côtés**. L'interface et l'API ne peuvent pas diverger : le
@@ -160,5 +160,5 @@ Angular 22 (zoneless, signaux, `httpResource`) · Hono 4 · Cloudflare Workers �
 workspaces npm · GitHub Actions.
 
 Aucune bibliothèque de composants, aucun framework CSS : le thème sombre et la version
-imprimable tiennent en deux feuilles de style dans `@nara/ui`. **Cmd+P produit un PDF propre —
+imprimable tiennent en deux feuilles de style dans `@latelier/ui`. **Cmd+P produit un PDF propre —
 il n'y a pas de bouton « télécharger » à maintenir.**

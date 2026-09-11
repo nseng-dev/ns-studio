@@ -15,10 +15,10 @@ html {
 
 body {
   margin: 0;
-  background: var(--nara-fond);
-  color: var(--nara-encre);
-  font-family: var(--nara-police);
-  font-size: var(--nara-taille-m);
+  background: var(--latelier-fond);
+  color: var(--latelier-encre);
+  font-family: var(--latelier-police);
+  font-size: var(--latelier-taille-m);
   line-height: 1.6;
   /* Sur macOS, le rendu par défaut épaissit le texte clair sur fond sombre. */
   -webkit-font-smoothing: antialiased;
@@ -51,7 +51,7 @@ ol {
 
 a {
   color: inherit;
-  text-decoration-color: var(--nara-trait-fort);
+  text-decoration-color: var(--latelier-trait-fort);
   text-underline-offset: 2px;
 }
 
@@ -61,7 +61,7 @@ a:hover {
 
 /* Le focus clavier doit rester visible : c'est la seule façon de naviguer sans souris. */
 :focus-visible {
-  outline: 2px solid var(--nara-accent);
+  outline: 2px solid var(--latelier-accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -98,6 +98,6 @@ a:hover {
   a[href^='http']::after {
     content: ' (' attr(href) ')';
     font-size: 0.85em;
-    color: var(--nara-encre-faible);
+    color: var(--latelier-encre-faible);
   }
 }

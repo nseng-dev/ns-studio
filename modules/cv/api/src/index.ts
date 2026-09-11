@@ -6,7 +6,7 @@
  * lecture dans le contrat.
  */
 
-import { lireCv, type ErreurApi } from '@nara/cv-contract';
+import { lireCv, type ErreurApi } from '@latelier/cv-contract';
 import { Hono } from 'hono';
 
 export const routesCv = new Hono();

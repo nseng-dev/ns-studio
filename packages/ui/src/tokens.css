@@ -12,54 +12,54 @@
   color-scheme: light dark;
 
   /* ---- Couleurs, thème clair ---- */
-  --nara-fond: #faf9f7;
-  --nara-surface: #ffffff;
-  --nara-encre: #1a1a1c;
-  --nara-encre-douce: #5f636b;
-  --nara-encre-faible: #8b8f96;
-  --nara-trait: #e6e3dd;
-  --nara-trait-fort: #d3cfc7;
-  --nara-accent: #17564a;
-  --nara-accent-fond: #edf3f1;
-  --nara-ombre: 0 1px 2px rgb(26 26 28 / 4%), 0 8px 24px rgb(26 26 28 / 5%);
+  --latelier-fond: #faf9f7;
+  --latelier-surface: #ffffff;
+  --latelier-encre: #1a1a1c;
+  --latelier-encre-douce: #5f636b;
+  --latelier-encre-faible: #8b8f96;
+  --latelier-trait: #e6e3dd;
+  --latelier-trait-fort: #d3cfc7;
+  --latelier-accent: #17564a;
+  --latelier-accent-fond: #edf3f1;
+  --latelier-ombre: 0 1px 2px rgb(26 26 28 / 4%), 0 8px 24px rgb(26 26 28 / 5%);
 
   /* ---- Typographie ---- */
-  --nara-police:
+  --latelier-police:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --nara-police-titre: ui-serif, Georgia, 'Times New Roman', serif;
+  --latelier-police-titre: ui-serif, Georgia, 'Times New Roman', serif;
 
-  --nara-taille-xs: 0.75rem;
-  --nara-taille-s: 0.8125rem;
-  --nara-taille-m: 0.9375rem;
-  --nara-taille-l: 1.0625rem;
-  --nara-taille-xl: 1.375rem;
-  --nara-taille-xxl: 2.25rem;
+  --latelier-taille-xs: 0.75rem;
+  --latelier-taille-s: 0.8125rem;
+  --latelier-taille-m: 0.9375rem;
+  --latelier-taille-l: 1.0625rem;
+  --latelier-taille-xl: 1.375rem;
+  --latelier-taille-xxl: 2.25rem;
 
   /* ---- Rythme ---- */
-  --nara-espace-1: 0.25rem;
-  --nara-espace-2: 0.5rem;
-  --nara-espace-3: 0.75rem;
-  --nara-espace-4: 1rem;
-  --nara-espace-5: 1.5rem;
-  --nara-espace-6: 2rem;
-  --nara-espace-7: 3rem;
+  --latelier-espace-1: 0.25rem;
+  --latelier-espace-2: 0.5rem;
+  --latelier-espace-3: 0.75rem;
+  --latelier-espace-4: 1rem;
+  --latelier-espace-5: 1.5rem;
+  --latelier-espace-6: 2rem;
+  --latelier-espace-7: 3rem;
 
-  --nara-rayon: 10px;
-  --nara-largeur-page: 60rem;
+  --latelier-rayon: 10px;
+  --latelier-largeur-page: 60rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --nara-fond: #121316;
-    --nara-surface: #191b1f;
-    --nara-encre: #eceef1;
-    --nara-encre-douce: #a4a9b2;
-    --nara-encre-faible: #797e87;
-    --nara-trait: #2b2e34;
-    --nara-trait-fort: #3a3e45;
-    --nara-accent: #6fc2ac;
-    --nara-accent-fond: #17322c;
-    --nara-ombre: none;
+    --latelier-fond: #121316;
+    --latelier-surface: #191b1f;
+    --latelier-encre: #eceef1;
+    --latelier-encre-douce: #a4a9b2;
+    --latelier-encre-faible: #797e87;
+    --latelier-trait: #2b2e34;
+    --latelier-trait-fort: #3a3e45;
+    --latelier-accent: #6fc2ac;
+    --latelier-accent-fond: #17322c;
+    --latelier-ombre: none;
   }
 }
 
@@ -69,15 +69,15 @@
  */
 @media print {
   :root {
-    --nara-fond: #ffffff;
-    --nara-surface: #ffffff;
-    --nara-encre: #000000;
-    --nara-encre-douce: #333333;
-    --nara-encre-faible: #555555;
-    --nara-trait: #cccccc;
-    --nara-trait-fort: #999999;
-    --nara-accent: #000000;
-    --nara-accent-fond: #ffffff;
-    --nara-ombre: none;
+    --latelier-fond: #ffffff;
+    --latelier-surface: #ffffff;
+    --latelier-encre: #000000;
+    --latelier-encre-douce: #333333;
+    --latelier-encre-faible: #555555;
+    --latelier-trait: #cccccc;
+    --latelier-trait-fort: #999999;
+    --latelier-accent: #000000;
+    --latelier-accent-fond: #ffffff;
+    --latelier-ombre: none;
   }
 }

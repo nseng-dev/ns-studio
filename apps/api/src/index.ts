@@ -9,7 +9,7 @@
  * Un seul déploiement, une seule origine — donc aucun CORS à configurer.
  */
 
-import { routesCv } from '@nara/cv-api';
+import { routesCv } from '@latelier/cv-api';
 import { Hono } from 'hono';
 
 const app = new Hono();

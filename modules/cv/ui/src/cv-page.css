@@ -3,52 +3,52 @@
  *
  * Trois rendus pour une seule feuille de style, sans une ligne de JavaScript : deux colonnes sur
  * écran large, une seule sous 760 px, et une version imprimable. Les couleurs viennent toutes de
- * `@nara/ui` — c'est ce qui rend le thème sombre et l'impression gratuits.
+ * `@latelier/ui` — c'est ce qui rend le thème sombre et l'impression gratuits.
  */
 
 :host {
   display: block;
-  padding: var(--nara-espace-7) var(--nara-espace-5);
+  padding: var(--latelier-espace-7) var(--latelier-espace-5);
 }
 
 .cv {
-  max-width: var(--nara-largeur-page);
+  max-width: var(--latelier-largeur-page);
   margin: 0 auto;
 }
 
 /* ---------------- En-tête ---------------- */
 
 .entete {
-  padding-bottom: var(--nara-espace-5);
-  border-bottom: 1px solid var(--nara-trait-fort);
+  padding-bottom: var(--latelier-espace-5);
+  border-bottom: 1px solid var(--latelier-trait-fort);
 }
 
 .nom {
-  font-family: var(--nara-police-titre);
-  font-size: var(--nara-taille-xxl);
+  font-family: var(--latelier-police-titre);
+  font-size: var(--latelier-taille-xxl);
   letter-spacing: -0.02em;
 }
 
 .titre {
-  margin-top: var(--nara-espace-1);
-  color: var(--nara-accent);
-  font-size: var(--nara-taille-xl);
+  margin-top: var(--latelier-espace-1);
+  color: var(--latelier-accent);
+  font-size: var(--latelier-taille-xl);
   font-weight: 500;
 }
 
 .accroche {
   max-width: 52ch;
-  margin-top: var(--nara-espace-3);
-  color: var(--nara-encre-douce);
+  margin-top: var(--latelier-espace-3);
+  color: var(--latelier-encre-douce);
 }
 
 .coordonnees {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  margin-top: var(--nara-espace-4);
-  color: var(--nara-encre-douce);
-  font-size: var(--nara-taille-s);
+  margin-top: var(--latelier-espace-4);
+  color: var(--latelier-encre-douce);
+  font-size: var(--latelier-taille-s);
 }
 
 /*
@@ -58,8 +58,8 @@
  */
 .coordonnees li:not(:last-child)::after {
   content: '·';
-  margin: 0 var(--nara-espace-2);
-  color: var(--nara-trait-fort);
+  margin: 0 var(--latelier-espace-2);
+  color: var(--latelier-trait-fort);
 }
 
 /* ---------------- Grille ---------------- */
@@ -67,23 +67,23 @@
 .corps {
   display: grid;
   grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
-  gap: var(--nara-espace-7);
-  margin-top: var(--nara-espace-6);
+  gap: var(--latelier-espace-7);
+  margin-top: var(--latelier-espace-6);
 }
 
 .principal,
 .cote {
   display: grid;
-  gap: var(--nara-espace-6);
+  gap: var(--latelier-espace-6);
   align-content: start;
 }
 
 .bloc__titre {
-  margin-bottom: var(--nara-espace-4);
-  padding-bottom: var(--nara-espace-2);
-  border-bottom: 1px solid var(--nara-trait);
-  color: var(--nara-accent);
-  font-size: var(--nara-taille-xs);
+  margin-bottom: var(--latelier-espace-4);
+  padding-bottom: var(--latelier-espace-2);
+  border-bottom: 1px solid var(--latelier-trait);
+  color: var(--latelier-accent);
+  font-size: var(--latelier-taille-xs);
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -94,7 +94,7 @@
 .parcours {
   position: relative;
   display: grid;
-  gap: var(--nara-espace-5);
+  gap: var(--latelier-espace-5);
   padding-left: 22px;
 }
 
@@ -106,7 +106,7 @@
   bottom: 8px;
   left: 3px;
   width: 1px;
-  background: var(--nara-trait);
+  background: var(--latelier-trait);
 }
 
 .poste {
@@ -122,48 +122,48 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--nara-accent);
+  background: var(--latelier-accent);
 }
 
 .periode {
-  color: var(--nara-encre-faible);
-  font-size: var(--nara-taille-xs);
+  color: var(--latelier-encre-faible);
+  font-size: var(--latelier-taille-xs);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
 }
 
 .poste__intitule {
-  margin-top: var(--nara-espace-1);
-  font-size: var(--nara-taille-l);
+  margin-top: var(--latelier-espace-1);
+  font-size: var(--latelier-taille-l);
 }
 
 .poste__precision {
-  color: var(--nara-encre-douce);
-  font-size: var(--nara-taille-s);
+  color: var(--latelier-encre-douce);
+  font-size: var(--latelier-taille-s);
 }
 
 .poste__employeur {
-  color: var(--nara-encre-douce);
-  font-size: var(--nara-taille-m);
+  color: var(--latelier-encre-douce);
+  font-size: var(--latelier-taille-m);
   font-weight: 500;
 }
 
 .poste__lieu {
   font-weight: 400;
-  color: var(--nara-encre-faible);
+  color: var(--latelier-encre-faible);
 }
 
 .details {
-  margin-top: var(--nara-espace-2);
+  margin-top: var(--latelier-espace-2);
   display: grid;
-  gap: var(--nara-espace-1);
+  gap: var(--latelier-espace-1);
 }
 
 .details li {
   position: relative;
-  padding-left: var(--nara-espace-4);
-  color: var(--nara-encre-douce);
-  font-size: var(--nara-taille-s);
+  padding-left: var(--latelier-espace-4);
+  color: var(--latelier-encre-douce);
+  font-size: var(--latelier-taille-s);
 }
 
 .details li::before {
@@ -173,19 +173,19 @@
   left: 2px;
   width: 4px;
   height: 1px;
-  background: var(--nara-trait-fort);
+  background: var(--latelier-trait-fort);
 }
 
 /* ---------------- Colonne latérale ---------------- */
 
 .groupe + .groupe {
-  margin-top: var(--nara-espace-4);
+  margin-top: var(--latelier-espace-4);
 }
 
 .groupe__titre {
-  margin-bottom: var(--nara-espace-2);
-  color: var(--nara-encre-douce);
-  font-size: var(--nara-taille-s);
+  margin-bottom: var(--latelier-espace-2);
+  color: var(--latelier-encre-douce);
+  font-size: var(--latelier-taille-s);
   font-weight: 600;
 }
 
@@ -197,25 +197,25 @@
 
 .etiquettes li {
   padding: 3px 9px;
-  border: 1px solid var(--nara-trait);
+  border: 1px solid var(--latelier-trait);
   border-radius: 999px;
-  background: var(--nara-accent-fond);
-  color: var(--nara-accent);
-  font-size: var(--nara-taille-xs);
+  background: var(--latelier-accent-fond);
+  color: var(--latelier-accent);
+  font-size: var(--latelier-taille-xs);
   line-height: 1.5;
 }
 
 .poste .etiquettes {
-  margin-top: var(--nara-espace-3);
+  margin-top: var(--latelier-espace-3);
 }
 
 .langues li {
   display: flex;
   justify-content: space-between;
-  gap: var(--nara-espace-4);
-  padding: var(--nara-espace-2) 0;
-  border-bottom: 1px dashed var(--nara-trait);
-  font-size: var(--nara-taille-s);
+  gap: var(--latelier-espace-4);
+  padding: var(--latelier-espace-2) 0;
+  border-bottom: 1px dashed var(--latelier-trait);
+  font-size: var(--latelier-taille-s);
 }
 
 .langues li:last-child {
@@ -223,72 +223,72 @@
 }
 
 .langues__niveau {
-  color: var(--nara-encre-faible);
+  color: var(--latelier-encre-faible);
   text-align: right;
 }
 
 .interets li + li {
-  margin-top: var(--nara-espace-3);
+  margin-top: var(--latelier-espace-3);
 }
 
 .interets__nom {
   display: block;
-  font-size: var(--nara-taille-s);
+  font-size: var(--latelier-taille-s);
   font-weight: 600;
 }
 
 .interets__detail {
-  color: var(--nara-encre-douce);
-  font-size: var(--nara-taille-s);
+  color: var(--latelier-encre-douce);
+  font-size: var(--latelier-taille-s);
 }
 
 /* ---------------- Pied et états ---------------- */
 
 .pied {
-  margin-top: var(--nara-espace-7);
-  padding-top: var(--nara-espace-4);
-  border-top: 1px solid var(--nara-trait);
-  color: var(--nara-encre-faible);
-  font-size: var(--nara-taille-xs);
+  margin-top: var(--latelier-espace-7);
+  padding-top: var(--latelier-espace-4);
+  border-top: 1px solid var(--latelier-trait);
+  color: var(--latelier-encre-faible);
+  font-size: var(--latelier-taille-xs);
 }
 
 .etat {
-  max-width: var(--nara-largeur-page);
+  max-width: var(--latelier-largeur-page);
   margin: 0 auto;
-  color: var(--nara-encre-douce);
+  color: var(--latelier-encre-douce);
 }
 
 .etat--erreur {
-  color: var(--nara-encre);
+  color: var(--latelier-encre);
 }
 
 .reessayer {
-  margin-left: var(--nara-espace-2);
+  margin-left: var(--latelier-espace-2);
   padding: 4px 12px;
-  border: 1px solid var(--nara-trait-fort);
-  border-radius: var(--nara-rayon);
-  background: var(--nara-surface);
+  border: 1px solid var(--latelier-trait-fort);
+  border-radius: var(--latelier-rayon);
+  background: var(--latelier-surface);
   color: inherit;
   font: inherit;
-  font-size: var(--nara-taille-s);
+  font-size: var(--latelier-taille-s);
   cursor: pointer;
 }
 
 .reessayer:hover {
-  border-color: var(--nara-accent);
-  color: var(--nara-accent);
+  border-color: var(--latelier-accent);
+  color: var(--latelier-accent);
 }
 
 /* ---------------- Écran étroit ---------------- */
 
 @media (max-width: 760px) {
   :host {
-    padding: var(--nara-espace-5) var(--nara-espace-4);
+    padding: var(--latelier-espace-5) var(--latelier-espace-4);
   }
 
   .corps {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--nara-espace-6);
+    gap: var(--latelier-espace-6);
   }
 
   .nom {
@@ -296,7 +296,7 @@
   }
 
   .titre {
-    font-size: var(--nara-taille-l);
+    font-size: var(--latelier-taille-l);
   }
 }
 
@@ -312,13 +312,13 @@
   }
 
   .corps {
-    gap: var(--nara-espace-6);
-    margin-top: var(--nara-espace-5);
+    gap: var(--latelier-espace-6);
+    margin-top: var(--latelier-espace-5);
   }
 
   .principal,
   .cote {
-    gap: var(--nara-espace-5);
+    gap: var(--latelier-espace-5);
   }
 
   /* Un poste coupé en deux par un saut de page est illisible. */

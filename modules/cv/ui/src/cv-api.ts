@@ -1,7 +1,7 @@
 import { httpResource } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import type { Cv } from '@nara/cv-contract';
+import type { Cv } from '@latelier/cv-contract';
 
 /**
  * L'accès du module CV à son API.

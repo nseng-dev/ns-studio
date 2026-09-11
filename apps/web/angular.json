@@ -7,7 +7,7 @@
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
-      "prefix": "nara",
+      "prefix": "latelier",
       "architect": {
         "build": {
           "builder": "@angular/build:application",

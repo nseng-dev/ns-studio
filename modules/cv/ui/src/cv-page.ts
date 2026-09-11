@@ -24,7 +24,7 @@ const MOIS = [
  * — le contenu — vient de l'API, et le reste est du CSS.
  */
 @Component({
-  selector: 'nara-cv',
+  selector: 'latelier-cv',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cv-page.html',
   styleUrl: './cv-page.css',

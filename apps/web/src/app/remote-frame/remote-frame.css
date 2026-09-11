@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  min-block-size: 100dvh;
+}
+
+.remote {
+  display: block;
+  inline-size: 100%;
+  min-block-size: 100dvh;
+  border: 0;
+  background: var(--couleur-fond, #f7f3ea);
+}

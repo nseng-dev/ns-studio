@@ -1,6 +1,6 @@
 # latelier
 
-Plateforme personnelle de Nathan SENG. **Un seul Worker Cloudflare, des modules indépendants.**
+Plateforme personnelle de Nathan SENG. **Un seul Worker Cloudflare, une shell Angular, des micro front-ends indépendants.**
 Le premier module est le CV.
 
 **En ligne : <https://latelier.latech.workers.dev>**
@@ -15,7 +15,7 @@ Le premier module est le CV.
    │                                                                  │
    │   /api/cv  ──►  Hono  ──►  @latelier/cv-contract  ──►  cv.fr.json   │
    │                                                                  │
-   │   /*       ──►  Static Assets  ──►  apps/web/dist/web/browser   │
+   │   /*       ──►  Static Assets  ──►  shell + /remotes/cv/       │
    │                 not_found_handling: "single-page-application"    │
    └──────────────────────────────────────────────────────────────────┘
 ```

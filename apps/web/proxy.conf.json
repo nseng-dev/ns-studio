@@ -3,5 +3,13 @@
     "target": "http://localhost:8787",
     "secure": false,
     "changeOrigin": true
+  },
+  "/remotes/cv": {
+    "target": "http://localhost:4201",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/remotes/cv": ""
+    }
   }
 }

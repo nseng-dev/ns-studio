@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'latelier-remote-frame',
+  selector: 'kinetiq-remote-frame',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './remote-frame.html',
   styleUrl: './remote-frame.css',

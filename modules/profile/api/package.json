@@ -1,0 +1,16 @@
+{
+  "name": "@kinetiq/profile-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Les routes Hono du module profil. Pas d'étape de construction : wrangler compile le TypeScript au moment du déploiement.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@kinetiq/profile-contract": "*",
+    "hono": "^4.13.5"
+  }
+}

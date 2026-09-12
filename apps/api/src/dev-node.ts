@@ -26,6 +26,6 @@ import app from './index.js';
 const port = Number(process.env['PORT'] ?? 8787);
 
 serve({ fetch: app.fetch, port }, (info) => {
-  console.log(`[latelier] API de développement prête sur http://localhost:${info.port}`);
-  console.log(`[latelier] essayez http://localhost:${info.port}/api/cv`);
+  console.log(`[kinetiq] API de développement prête sur http://localhost:${info.port}`);
+  console.log(`[kinetiq] essayez http://localhost:${info.port}/api/profile`);
 });

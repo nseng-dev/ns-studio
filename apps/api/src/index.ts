@@ -9,12 +9,12 @@
  * Un seul déploiement, une seule origine — donc aucun CORS à configurer.
  */
 
-import { routesCv } from '@latelier/cv-api';
+import { routesProfile } from '@kinetiq/profile-api';
 import { Hono } from 'hono';
 
 const app = new Hono();
 
-app.route('/api/cv', routesCv);
+app.route('/api/profile', routesProfile);
 
 /**
  * Filet pour les routes d'API inconnues.

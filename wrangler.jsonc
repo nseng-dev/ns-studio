@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
 
-  // Ce nom est le premier segment de l'adresse publique : « latelier » donne
-  // latelier.latech.workers.dev — « latech » étant le sous-domaine du compte Cloudflare,
+  // Ce nom est le premier segment de l'adresse publique : « kinetiq » donne
+  // kinetiq.latech.workers.dev — « latech » étant le sous-domaine du compte Cloudflare,
   // réglé sur le dashboard et non ici. Le dépôt porte le même nom, pour qu'un visiteur
   // passant de GitHub au site ne se demande pas s'il est au bon endroit.
   // Le modifier crée un nouveau Worker : l'ancien reste en ligne jusqu'à suppression.
-  "name": "latelier",
+  "name": "kinetiq",
 
   // Le point d'entrée est du TypeScript : wrangler le compile lui-même, au déploiement comme
   // en développement. C'est pourquoi `apps/api` n'a ni `tsc`, ni `dist/`.
@@ -18,12 +18,12 @@
     "directory": "./apps/web/dist/web/browser",
 
     // Toute route inconnue rend `index.html` : c'est le routeur Angular qui décide ensuite.
-    // Sans cela, recharger la page sur /cv renverrait un 404.
+    // Sans cela, recharger la page sur /profile renverrait un 404.
     "not_found_handling": "single-page-application",
 
     "binding": "ASSETS",
 
-    // L'aiguillage de toute l'architecture. Sans cette ligne, `/api/cv` serait avalé par le
+    // L'aiguillage de toute l'architecture. Sans cette ligne, `/api/profile` serait avalé par le
     // repli SPA ci-dessus et renverrait du HTML au lieu du JSON.
     "run_worker_first": ["/api/*"],
   },

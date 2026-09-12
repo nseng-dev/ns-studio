@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [],
+    "paths": {
+      "@kinetiq/profile-ui": ["../../modules/profile/ui/src/index.ts"]
+    }
+  },
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts"]
+}

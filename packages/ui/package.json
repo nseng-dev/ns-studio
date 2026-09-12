@@ -1,5 +1,5 @@
 {
-  "name": "@latelier/ui",
+  "name": "@kinetiq/ui",
   "version": "1.0.0",
   "private": true,
   "description": "Le socle visuel de la plateforme : variables de thème, typographie, impression. Du CSS pur, donc aucune étape de construction.",

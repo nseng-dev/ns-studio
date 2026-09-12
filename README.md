@@ -1,9 +1,9 @@
-# latelier
+# kinetiq
 
-Plateforme personnelle de Nathan SENG. **Un seul Worker Cloudflare, une shell Angular, des micro front-ends indépendants.**
-Le premier module est le CV.
+Plateforme Kinetiq. **Un seul Worker Cloudflare, une shell Angular, des micro front-ends indépendants.**
+Le premier module est le profil.
 
-**En ligne : <https://latelier.latech.workers.dev>**
+**En ligne : <https://kinetiq.dev>**
 
 ```
                         Navigateur du visiteur
@@ -13,9 +13,9 @@ Le premier module est le CV.
    │                                                                  │
    │   run_worker_first: ["/api/*"]      ◄── l'aiguillage, 1 ligne    │
    │                                                                  │
-   │   /api/cv  ──►  Hono  ──►  @latelier/cv-contract  ──►  cv.fr.json   │
+   │   /api/profile  ──►  Hono  ──►  @kinetiq/profile-contract  ──►  profile.fr.json   │
    │                                                                  │
-   │   /*       ──►  Static Assets  ──►  shell + /remotes/cv/       │
+   │   /*       ──►  Static Assets  ──►  shell + /remotes/profile/       │
    │                 not_found_handling: "single-page-application"    │
    └──────────────────────────────────────────────────────────────────┘
 ```
@@ -30,26 +30,27 @@ Un **module** est une tranche verticale : son contrat, son interface et ses rout
 même dossier, et bougent ensemble.
 
 ```
-latelier/
+kinetiq/
 ├── .nvmrc                       22.23.2
 ├── wrangler.jsonc               assets + run_worker_first
 ├── .github/workflows/ci.yml     build → tests → déploiement
 │
 ├── packages/
-│   └── ui/        @latelier/ui              variables de thème, socle, impression
+│   └── ui/        @kinetiq/ui              variables de thème, socle, impression
 │
-├── modules/cv/
-│   ├── contract/  @latelier/cv-contract     types · valideCv() · cv.fr.json
-│   ├── ui/        @latelier/cv-ui           la page Angular
-│   └── api/       @latelier/cv-api          les routes Hono
+├── modules/profile/
+│   ├── contract/  @kinetiq/profile-contract     types · valideProfile() · profile.fr.json
+│   ├── ui/        @kinetiq/profile-ui           la page Angular
+│   └── api/       @kinetiq/profile-api          les routes Hono
 │
 └── apps/
-    ├── api/       @latelier/api             le Worker : monte les routes des modules
-    └── web/       @latelier/web             la coquille Angular : routes paresseuses
+    ├── api/       @kinetiq/api             le Worker : monte les routes des modules
+    ├── profile/   @kinetiq/profile-app     le micro front-end profil
+    └── web/       @kinetiq/web             la shell Angular : navigation + remotes
 ```
 
-`contract/` est importé **des deux côtés**. L'interface et l'API ne peuvent pas diverger : le
-compilateur l'interdit.
+`contract/` est importé par l'API et par l'application profile. La shell, elle, ne compile pas le
+module : elle embarque simplement `/remotes/profile/`.
 
 > `apps/api` n'a ni `tsc`, ni `dist/`, ni script `build` — wrangler compile le TypeScript du
 > Worker lui-même.
@@ -64,7 +65,10 @@ npm run dev
 ```
 
 - l'API sur `http://localhost:8787`
-- l'interface sur `http://localhost:4200`, qui proxifie `/api` vers 8787
+- la shell sur `http://localhost:4200`
+- le micro front-end profile sur `http://localhost:4201`
+
+La shell proxifie `/remotes/profile/` vers 4201, et les deux fronts proxifient `/api` vers 8787.
 
 ### Pourquoi un serveur Node et non `wrangler dev`
 
@@ -86,37 +90,39 @@ Sur macOS 13.5+, `npx wrangler dev` fonctionne normalement et reste le moyen le 
 
 ---
 
-## 3. Mettre le CV à jour
+## 3. Mettre le profil à jour
 
-Un seul fichier : **`modules/cv/contract/src/data/cv.fr.json`**. L'éditer, c'est une pull request.
+Un seul fichier : **`modules/profile/contract/src/data/profile.fr.json`**. L'éditer, c'est une pull request.
 
 ```bash
 npm test    # valide le contenu : dates, sections obligatoires, ordre antéchronologique
 ```
 
-La CI passe ce test avant tout déploiement : un CV cassé ne peut pas arriver en ligne.
+La CI passe ce test avant tout déploiement : un profil cassé ne peut pas arriver en ligne.
 
 ### Données personnelles — un choix, pas un oubli
 
-Le CV papier porte une adresse postale, un téléphone, une date de naissance, un état civil et une
+Le profil papier porte une adresse postale, un téléphone, une date de naissance, un état civil et une
 nationalité. **Rien de tout cela n'est publié ici**, et le type `Profil` ne prévoit même pas de
 champ pour les accueillir.
 
 La page est publique et le dépôt aussi : ces informations seraient indexées et moissonnées. En
-France, elles sont de toute façon déconseillées sur un CV, car elles ouvrent la porte à la
+France, elles sont de toute façon déconseillées sur un profil, car elles ouvrent la porte à la
 discrimination. Seule l'adresse électronique est affichée.
 
 ---
 
 ## 4. Ajouter un module
 
-Trois gestes, et rien d'autre :
+Quatre gestes, et rien d'autre :
 
-| Où                               | Quoi                                                                 |
-| -------------------------------- | -------------------------------------------------------------------- |
-| `modules/<nom>/`                 | Le dossier : `contract/`, `ui/`, `api/`                              |
-| `apps/api/src/index.ts`          | Une ligne : `app.route('/api/<nom>', routes<Nom>)`                   |
-| `apps/web/src/app/app.routes.ts` | Une entrée `loadComponent` — plus le chemin dans `tsconfig.app.json` |
+| Où                               | Quoi                                                        |
+| -------------------------------- | ----------------------------------------------------------- |
+| `apps/<nom>/`                    | L'application Angular remote, avec son propre build         |
+| `modules/<nom>/`                 | Le dossier : `contract/`, `ui/`, `api/`                     |
+| `apps/api/src/index.ts`          | Une ligne : `app.route('/api/<nom>', routes<Nom>)`          |
+| `apps/web/src/app/app.routes.ts` | Une entrée shell vers `/remotes/<nom>/`                     |
+| `scripts/compose-remotes.mjs`    | Une entrée pour copier le build dans les assets de la shell |
 
 Pas de nouveau dépôt, pas de nouveau secret, pas de nouveau domaine.
 
@@ -142,15 +148,16 @@ npm run deploy
 
 ## 6. Les commandes
 
-| Commande          | Effet                                    |
-| ----------------- | ---------------------------------------- |
-| `npm run dev`     | API + interface, en parallèle            |
-| `npm run dev:api` | L'API seule, sur 8787                    |
-| `npm run dev:web` | L'interface seule, sur 4200              |
-| `npm test`        | Valide le contenu du CV et le validateur |
-| `npm run build`   | Contrat, puis interface Angular          |
-| `npm run deploy`  | Build, puis `wrangler deploy`            |
-| `npm run format`  | Prettier sur tout le dépôt               |
+| Commande              | Effet                                            |
+| --------------------- | ------------------------------------------------ |
+| `npm run dev`         | API + profile + shell, en parallèle              |
+| `npm run dev:api`     | L'API seule, sur 8787                            |
+| `npm run dev:profile` | Le micro front-end profile seul, sur 4201        |
+| `npm run dev:web`     | La shell seule, sur 4200                         |
+| `npm test`            | Valide le contenu du profil et le validateur     |
+| `npm run build`       | Contrat, profile remote, shell, puis composition |
+| `npm run deploy`      | Build, puis `wrangler deploy`                    |
+| `npm run format`      | Prettier sur tout le dépôt                       |
 
 ---
 
@@ -160,5 +167,5 @@ Angular 22 (zoneless, signaux, `httpResource`) · Hono 4 · Cloudflare Workers �
 workspaces npm · GitHub Actions.
 
 Aucune bibliothèque de composants, aucun framework CSS : le thème sombre et la version
-imprimable tiennent en deux feuilles de style dans `@latelier/ui`. **Cmd+P produit un PDF propre —
+imprimable tiennent en deux feuilles de style dans `@kinetiq/ui`. **Cmd+P produit un PDF propre —
 il n'y a pas de bouton « télécharger » à maintenir.**

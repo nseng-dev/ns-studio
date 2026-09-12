@@ -1,12 +1,12 @@
 {
-  "name": "@latelier/api",
+  "name": "@kinetiq/api",
   "version": "1.0.0",
   "private": true,
-  "description": "Le Worker Cloudflare : il monte les routes de chaque module et sert l'interface Angular.",
+  "description": "Le Worker Cloudflare de Kinetiq : il monte les routes API et sert la shell Angular.",
   "type": "module",
   "main": "./src/index.ts",
   "dependencies": {
-    "@latelier/cv-api": "*",
+    "@kinetiq/profile-api": "*",
     "hono": "^4.13.5"
   },
   "devDependencies": {

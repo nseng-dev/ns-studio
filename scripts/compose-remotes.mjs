@@ -6,9 +6,9 @@ const racine = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 const remotes = [
   {
-    nom: 'cv',
-    source: 'apps/cv/dist/cv/browser',
-    destination: 'apps/web/dist/web/browser/remotes/cv',
+    nom: 'profile',
+    source: 'apps/profile/dist/profile/browser',
+    destination: 'apps/web/dist/web/browser/remotes/profile',
   },
 ];
 
@@ -20,5 +20,5 @@ for (const remote of remotes) {
   await mkdir(destination, { recursive: true });
   await cp(source, destination, { recursive: true });
 
-  console.log(`[latelier] remote ${remote.nom} -> ${remote.destination}`);
+  console.log(`[kinetiq] remote ${remote.nom} -> ${remote.destination}`);
 }

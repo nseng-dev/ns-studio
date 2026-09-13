@@ -13,11 +13,11 @@ export const routes: Routes = [
     loadComponent: () => import('./remote-frame/remote-frame').then((m) => m.RemoteFrame),
     data: {
       title: 'Profil - Nathan SENG',
-      src: '/remotes/profile/',
+      src: '/remotes/profile/index.html',
     },
   },
 
   { path: '', pathMatch: 'full', redirectTo: 'profile' },
-  { path: 'profile', redirectTo: 'profile' },
+  { path: 'cv', redirectTo: 'profile' },
   { path: '**', redirectTo: 'profile' },
 ];

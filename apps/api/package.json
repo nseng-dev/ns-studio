@@ -1,12 +1,12 @@
 {
-  "name": "@kinetiq/api",
+  "name": "@ns-studio/api",
   "version": "1.0.0",
   "private": true,
-  "description": "Le Worker Cloudflare de Kinetiq : il monte les routes API et sert la shell Angular.",
+  "description": "Le Worker Cloudflare de NS Studio : il monte les routes API et sert la shell Angular.",
   "type": "module",
   "main": "./src/index.ts",
   "dependencies": {
-    "@kinetiq/profile-api": "*",
+    "@ns-studio/profile-api": "*",
     "hono": "^4.13.5"
   },
   "devDependencies": {

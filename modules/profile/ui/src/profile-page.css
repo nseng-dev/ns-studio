@@ -1,338 +1,409 @@
-/**
- * La mise en page du profil.
- *
- * Trois rendus pour une seule feuille de style, sans une ligne de JavaScript : deux colonnes sur
- * écran large, une seule sous 760 px, et une version imprimable. Les couleurs viennent toutes de
- * `@kinetiq/ui` — c'est ce qui rend le thème sombre et l'impression gratuits.
- */
-
 :host {
   display: block;
-  padding: var(--kinetiq-espace-7) var(--kinetiq-espace-5);
+  min-block-size: 100dvh;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  background:
+    linear-gradient(var(--ns-trait) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ns-trait) 1px, transparent 1px),
+    var(--ns-fond);
+  background-size: 4.5rem 4.5rem;
 }
 
 .profile {
-  max-width: var(--kinetiq-largeur-page);
+  max-width: var(--ns-largeur-page);
   margin: 0 auto;
+  border: 1px solid var(--ns-encre);
+  background: var(--ns-fond);
 }
-
-/* ---------------- En-tête ---------------- */
 
 .entete {
-  padding-bottom: var(--kinetiq-espace-5);
-  border-bottom: 1px solid var(--kinetiq-trait-fort);
+  background: var(--ns-encre);
+  color: var(--ns-fond);
 }
 
-.nom {
-  font-family: var(--kinetiq-police-titre);
-  font-size: var(--kinetiq-taille-xxl);
-  letter-spacing: -0.02em;
-}
-
-.titre {
-  margin-top: var(--kinetiq-espace-1);
-  color: var(--kinetiq-accent);
-  font-size: var(--kinetiq-taille-xl);
-  font-weight: 500;
-}
-
-.accroche {
-  max-width: 52ch;
-  margin-top: var(--kinetiq-espace-3);
-  color: var(--kinetiq-encre-douce);
-}
-
+.entete__marque,
 .coordonnees {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  margin-top: var(--kinetiq-espace-4);
-  color: var(--kinetiq-encre-douce);
-  font-size: var(--kinetiq-taille-s);
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 1rem clamp(1rem, 3vw, 2rem);
+  border-block-end: 1px solid color-mix(in srgb, var(--ns-fond), transparent 78%);
+  font-size: var(--ns-taille-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-/*
- * Le séparateur est porté par l'élément qui *précède*, pas par celui qui suit : ainsi il reste
- * collé à lui au passage à la ligne. Placé en `::before` sur le suivant, il ouvrirait la ligne
- * par un point isolé dès que les coordonnées se replient — ce qui arrive sur mobile.
- */
-.coordonnees li:not(:last-child)::after {
-  content: '·';
-  margin: 0 var(--kinetiq-espace-2);
-  color: var(--kinetiq-trait-fort);
+.entete__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+  min-block-size: clamp(24rem, 58vh, 34rem);
 }
 
-/* ---------------- Grille ---------------- */
+.entete__hero > * {
+  display: grid;
+  align-content: end;
+  padding: clamp(1.25rem, 5vw, 4rem);
+}
+
+.entete__pitch {
+  border-inline-start: 1px solid color-mix(in srgb, var(--ns-fond), transparent 78%);
+  background: color-mix(in srgb, var(--ns-fond), transparent 94%);
+}
+
+.surtitre {
+  margin-bottom: 1.5rem;
+  color: color-mix(in srgb, var(--ns-fond), transparent 28%);
+  font-size: var(--ns-taille-xs);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.nom {
+  max-width: 9ch;
+  font-family: var(--ns-police-titre);
+  font-size: clamp(3.75rem, 12vw, 8.5rem);
+  font-weight: 800;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.titre {
+  max-width: 18ch;
+  font-size: clamp(1.35rem, 3vw, 2.35rem);
+  font-weight: 750;
+  line-height: 1.05;
+}
+
+.accroche {
+  max-width: 48ch;
+  margin-top: 1.5rem;
+  color: color-mix(in srgb, var(--ns-fond), transparent 22%);
+  font-size: var(--ns-taille-m);
+}
+
+.coordonnees {
+  justify-content: flex-start;
+  border-block: 1px solid color-mix(in srgb, var(--ns-fond), transparent 78%) 0;
+}
+
+.coordonnees a,
+.coordonnees span {
+  color: inherit;
+  text-decoration: none;
+}
+
+.coordonnees a {
+  border-bottom: 1px solid currentcolor;
+}
 
 .corps {
   display: grid;
-  grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
-  gap: var(--kinetiq-espace-7);
-  margin-top: var(--kinetiq-espace-6);
+  grid-template-columns: minmax(0, 1.55fr) minmax(18rem, 0.85fr);
 }
 
 .principal,
 .cote {
   display: grid;
-  gap: var(--kinetiq-espace-6);
   align-content: start;
 }
 
+.cote {
+  border-inline-start: 1px solid var(--ns-encre);
+}
+
+.bloc {
+  padding: clamp(1.25rem, 4vw, 3rem);
+  border-block-start: 1px solid var(--ns-encre);
+}
+
+.principal .bloc:first-child,
+.cote .bloc:first-child {
+  border-block-start: 0;
+}
+
 .bloc__titre {
-  margin-bottom: var(--kinetiq-espace-4);
-  padding-bottom: var(--kinetiq-espace-2);
-  border-bottom: 1px solid var(--kinetiq-trait);
-  color: var(--kinetiq-accent);
-  font-size: var(--kinetiq-taille-xs);
-  font-weight: 700;
-  letter-spacing: 0.09em;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+  font-size: var(--ns-taille-xs);
+  font-weight: 800;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-/* ---------------- Parcours ---------------- */
-
-.parcours {
-  position: relative;
-  display: grid;
-  gap: var(--kinetiq-espace-5);
-  padding-left: 22px;
+.bloc__titre::after {
+  content: '';
+  block-size: 1px;
+  background: currentcolor;
 }
 
-/* Le fil vertical qui relie les postes entre eux. */
-.parcours::before {
-  content: '';
-  position: absolute;
-  top: 8px;
-  bottom: 8px;
-  left: 3px;
-  width: 1px;
-  background: var(--kinetiq-trait);
+.parcours {
+  counter-reset: item;
+  display: grid;
 }
 
 .poste {
-  position: relative;
+  counter-increment: item;
+  display: grid;
+  grid-template-columns: 4.75rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.5rem 0;
+  border-block-start: 1px solid var(--ns-trait);
 }
 
-/* La pastille de chaque poste, centrée sur le fil. */
+.poste:first-child {
+  padding-top: 0;
+  border-block-start: 0;
+}
+
 .poste::before {
-  content: '';
-  position: absolute;
-  top: 7px;
-  left: -22px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--kinetiq-accent);
+  content: counter(item, decimal-leading-zero);
+  color: var(--ns-encre-faible);
+  font-size: var(--ns-taille-xs);
+  font-weight: 800;
+  letter-spacing: 0.12em;
 }
 
 .periode {
-  color: var(--kinetiq-encre-faible);
-  font-size: var(--kinetiq-taille-xs);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--ns-encre-faible);
+  font-size: var(--ns-taille-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.poste__intitule,
+.poste__precision,
+.poste__employeur,
+.details,
+.etiquettes {
+  grid-column: 2;
 }
 
 .poste__intitule {
-  margin-top: var(--kinetiq-espace-1);
-  font-size: var(--kinetiq-taille-l);
+  margin-top: 0.3rem;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 750;
+  line-height: 1.12;
 }
 
-.poste__precision {
-  color: var(--kinetiq-encre-douce);
-  font-size: var(--kinetiq-taille-s);
-}
-
+.poste__precision,
 .poste__employeur {
-  color: var(--kinetiq-encre-douce);
-  font-size: var(--kinetiq-taille-m);
-  font-weight: 500;
+  color: var(--ns-encre-douce);
+  font-size: var(--ns-taille-s);
+  font-weight: 650;
 }
 
 .poste__lieu {
-  font-weight: 400;
-  color: var(--kinetiq-encre-faible);
+  color: var(--ns-encre-faible);
+  font-weight: 500;
 }
 
 .details {
-  margin-top: var(--kinetiq-espace-2);
   display: grid;
-  gap: var(--kinetiq-espace-1);
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+  color: var(--ns-encre-douce);
+  font-size: var(--ns-taille-s);
 }
 
 .details li {
   position: relative;
-  padding-left: var(--kinetiq-espace-4);
-  color: var(--kinetiq-encre-douce);
-  font-size: var(--kinetiq-taille-s);
+  padding-left: 1.1rem;
 }
 
 .details li::before {
   content: '';
   position: absolute;
-  top: 0.6em;
-  left: 2px;
-  width: 4px;
-  height: 1px;
-  background: var(--kinetiq-trait-fort);
-}
-
-/* ---------------- Colonne latérale ---------------- */
-
-.groupe + .groupe {
-  margin-top: var(--kinetiq-espace-4);
-}
-
-.groupe__titre {
-  margin-bottom: var(--kinetiq-espace-2);
-  color: var(--kinetiq-encre-douce);
-  font-size: var(--kinetiq-taille-s);
-  font-weight: 600;
+  inset-block-start: 0.72em;
+  inset-inline-start: 0;
+  inline-size: 0.45rem;
+  block-size: 1px;
+  background: var(--ns-encre);
 }
 
 .etiquettes {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 0.45rem;
+  margin-top: 1rem;
 }
 
 .etiquettes li {
-  padding: 3px 9px;
-  border: 1px solid var(--kinetiq-trait);
-  border-radius: 999px;
-  background: var(--kinetiq-accent-fond);
-  color: var(--kinetiq-accent);
-  font-size: var(--kinetiq-taille-xs);
-  line-height: 1.5;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--ns-encre);
+  background: var(--ns-fond);
+  color: var(--ns-encre);
+  font-size: var(--ns-taille-xs);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
-.poste .etiquettes {
-  margin-top: var(--kinetiq-espace-3);
+.groupe + .groupe {
+  margin-top: 1.35rem;
 }
 
-.langues li {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--kinetiq-espace-4);
-  padding: var(--kinetiq-espace-2) 0;
-  border-bottom: 1px dashed var(--kinetiq-trait);
-  font-size: var(--kinetiq-taille-s);
+.groupe__titre {
+  margin-bottom: 0.65rem;
+  font-size: var(--ns-taille-s);
+  font-weight: 800;
 }
 
-.langues li:last-child {
-  border-bottom: none;
+.langues li,
+.interets li {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem 0;
+  border-block-start: 1px solid var(--ns-trait);
+  font-size: var(--ns-taille-s);
 }
 
-.langues__niveau {
-  color: var(--kinetiq-encre-faible);
-  text-align: right;
+.langues li:first-child,
+.interets li:first-child {
+  padding-top: 0;
+  border-block-start: 0;
 }
 
-.interets li + li {
-  margin-top: var(--kinetiq-espace-3);
-}
-
+.langues__nom,
 .interets__nom {
-  display: block;
-  font-size: var(--kinetiq-taille-s);
-  font-weight: 600;
+  font-weight: 800;
 }
 
+.langues__niveau,
 .interets__detail {
-  color: var(--kinetiq-encre-douce);
-  font-size: var(--kinetiq-taille-s);
+  color: var(--ns-encre-douce);
 }
-
-/* ---------------- Pied et états ---------------- */
 
 .pied {
-  margin-top: var(--kinetiq-espace-7);
-  padding-top: var(--kinetiq-espace-4);
-  border-top: 1px solid var(--kinetiq-trait);
-  color: var(--kinetiq-encre-faible);
-  font-size: var(--kinetiq-taille-xs);
+  padding: 1rem clamp(1rem, 3vw, 2rem);
+  border-block-start: 1px solid var(--ns-encre);
+  color: var(--ns-encre-faible);
+  font-size: var(--ns-taille-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .etat {
-  max-width: var(--kinetiq-largeur-page);
+  max-width: var(--ns-largeur-page);
   margin: 0 auto;
-  color: var(--kinetiq-encre-douce);
+  color: var(--ns-encre-douce);
 }
 
 .etat--erreur {
-  color: var(--kinetiq-encre);
+  color: var(--ns-encre);
 }
 
 .reessayer {
-  margin-left: var(--kinetiq-espace-2);
-  padding: 4px 12px;
-  border: 1px solid var(--kinetiq-trait-fort);
-  border-radius: var(--kinetiq-rayon);
-  background: var(--kinetiq-surface);
+  margin-left: var(--ns-espace-2);
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--ns-encre);
+  border-radius: 0;
+  background: var(--ns-fond);
   color: inherit;
   font: inherit;
-  font-size: var(--kinetiq-taille-s);
+  font-size: var(--ns-taille-s);
   cursor: pointer;
 }
 
 .reessayer:hover {
-  border-color: var(--kinetiq-accent);
-  color: var(--kinetiq-accent);
+  background: var(--ns-encre);
+  color: var(--ns-fond);
 }
 
-/* ---------------- Écran étroit ---------------- */
-
-@media (max-width: 760px) {
+@media (max-width: 820px) {
   :host {
-    padding: var(--kinetiq-espace-5) var(--kinetiq-espace-4);
+    padding: 0;
+    background: var(--ns-fond);
   }
 
+  .profile {
+    border-inline: 0;
+  }
+
+  .entete__hero,
   .corps {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--kinetiq-espace-6);
+  }
+
+  .entete__hero {
+    min-block-size: 0;
+  }
+
+  .entete__pitch,
+  .cote {
+    border-inline-start: 0;
+  }
+
+  .entete__pitch {
+    border-block-start: 1px solid color-mix(in srgb, var(--ns-fond), transparent 78%);
   }
 
   .nom {
-    font-size: 1.75rem;
+    max-width: none;
+    font-size: clamp(3rem, 18vw, 5.5rem);
   }
 
-  .titre {
-    font-size: var(--kinetiq-taille-l);
+  .poste {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .poste::before,
+  .periode,
+  .poste__intitule,
+  .poste__precision,
+  .poste__employeur,
+  .details,
+  .etiquettes {
+    grid-column: 1;
   }
 }
 
-/* ---------------- Impression ---------------- */
-
 @media print {
   :host {
+    min-block-size: auto;
     padding: 0;
+    background: #fff;
   }
 
   .profile {
     max-width: none;
+    border: 0;
   }
 
-  .corps {
-    gap: var(--kinetiq-espace-6);
-    margin-top: var(--kinetiq-espace-5);
+  .entete {
+    background: #fff;
+    color: #000;
   }
 
-  .principal,
-  .cote {
-    gap: var(--kinetiq-espace-5);
+  .entete__hero {
+    min-block-size: auto;
   }
 
-  /* Un poste coupé en deux par un saut de page est illisible. */
+  .entete__marque,
+  .coordonnees,
+  .entete__pitch,
+  .cote,
+  .bloc,
+  .pied {
+    border-color: #999;
+  }
+
   .poste,
   .bloc,
   .groupe {
     break-inside: avoid;
   }
 
-  .bloc__titre {
-    border-bottom-color: #999;
-  }
-
-  /* Le bouton n'a aucun sens sur du papier. */
   .reessayer {
     display: none;
   }

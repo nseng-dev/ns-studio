@@ -1,5 +1,5 @@
 {
-  "name": "@kinetiq/profile-ui",
+  "name": "@ns-studio/profile-ui",
   "version": "1.0.0",
   "private": true,
   "description": "Les composants Angular du module profil. Livrés en source : c'est l'application profile qui les compile.",
@@ -10,6 +10,6 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@kinetiq/profile-contract": "*"
+    "@ns-studio/profile-contract": "*"
   }
 }

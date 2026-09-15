@@ -6,7 +6,7 @@
  * lecture dans le contrat.
  */
 
-import { lireProfile, type ErreurApi } from '@kinetiq/profile-contract';
+import { lireProfile, type ErreurApi } from '@ns-studio/profile-contract';
 import { Hono } from 'hono';
 
 export const routesProfile = new Hono();

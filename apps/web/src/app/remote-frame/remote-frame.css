@@ -8,5 +8,5 @@
   inline-size: 100%;
   min-block-size: 100dvh;
   border: 0;
-  background: var(--kinetiq-fond, #faf9f7);
+  background: var(--ns-fond, #faf9f7);
 }

@@ -4,7 +4,7 @@
     "outDir": "./out-tsc/app",
     "types": [],
     "paths": {
-      "@kinetiq/profile-ui": ["../../modules/profile/ui/src/index.ts"]
+      "@ns-studio/profile-ui": ["../../modules/profile/ui/src/index.ts"]
     }
   },
   "files": ["src/main.ts"],

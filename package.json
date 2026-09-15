@@ -1,8 +1,8 @@
 {
-  "name": "kinetiq",
+  "name": "ns-studio",
   "version": "1.0.0",
   "private": true,
-  "description": "Plateforme Kinetiq : une shell Angular, un Worker Cloudflare, des modules indépendants.",
+  "description": "Plateforme NS Studio : une shell Angular, un Worker Cloudflare, des modules indépendants.",
   "type": "module",
   "engines": {
     "node": ">=22.22.3"
@@ -13,16 +13,16 @@
     "apps/*"
   ],
   "scripts": {
-    "build:contract": "npm run build --workspace @kinetiq/profile-contract",
-    "build:profile": "npm run build --workspace @kinetiq/profile-app",
-    "build:web": "npm run build --workspace @kinetiq/web",
+    "build:contract": "npm run build --workspace @ns-studio/profile-contract",
+    "build:profile": "npm run build --workspace @ns-studio/profile-app",
+    "build:web": "npm run build --workspace @ns-studio/web",
     "compose:remotes": "node scripts/compose-remotes.mjs",
     "build:shell": "npm run build:web",
     "build": "npm run build:contract && npm run build:profile && npm run build:shell && npm run compose:remotes",
-    "dev": "npm run build:contract && concurrently -n api,profile,shell -c cyan,green,magenta \"tsx watch apps/api/src/dev-node.ts\" \"npm run start --workspace @kinetiq/profile-app\" \"npm run start --workspace @kinetiq/web\"",
+    "dev": "npm run build:contract && concurrently -n api,profile,shell -c cyan,green,magenta \"tsx watch apps/api/src/dev-node.ts\" \"npm run start --workspace @ns-studio/profile-app\" \"npm run start --workspace @ns-studio/web\"",
     "dev:api": "npm run build:contract && tsx watch apps/api/src/dev-node.ts",
-    "dev:profile": "npm run build:contract && npm run start --workspace @kinetiq/profile-app",
-    "dev:web": "npm run build:contract && npm run start --workspace @kinetiq/web",
+    "dev:profile": "npm run build:contract && npm run start --workspace @ns-studio/profile-app",
+    "dev:web": "npm run build:contract && npm run start --workspace @ns-studio/web",
     "test": "node --import tsx --test modules/profile/contract/test/*.test.ts",
     "deploy": "npm run build && wrangler deploy",
     "format": "prettier --write ."

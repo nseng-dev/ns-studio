@@ -12,7 +12,7 @@
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
-      "prefix": "kinetiq",
+      "prefix": "ns",
       "architect": {
         "build": {
           "builder": "@angular/build:application",

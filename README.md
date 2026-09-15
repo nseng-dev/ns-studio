@@ -1,6 +1,6 @@
-# kinetiq
+# ns-studio
 
-Plateforme Kinetiq. **Un seul Worker Cloudflare, une shell Angular, des micro front-ends indépendants.**
+Plateforme NS Studio. **Un seul Worker Cloudflare, une shell Angular, des micro front-ends indépendants.**
 Le premier module est le profil.
 
 **En ligne : <https://ns.latech.workers.dev>**
@@ -13,7 +13,7 @@ Le premier module est le profil.
    │                                                                  │
    │   run_worker_first: ["/api/*"]      ◄── l'aiguillage, 1 ligne    │
    │                                                                  │
-   │   /api/profile  ──►  Hono  ──►  @kinetiq/profile-contract  ──►  profile.fr.json   │
+   │   /api/profile  ──►  Hono  ──►  @ns-studio/profile-contract  ──►  profile.fr.json   │
    │                                                                  │
    │   /*       ──►  Static Assets  ──►  shell + /remotes/profile/       │
    │                 not_found_handling: "single-page-application"    │
@@ -30,23 +30,23 @@ Un **module** est une tranche verticale : son contrat, son interface et ses rout
 même dossier, et bougent ensemble.
 
 ```
-kinetiq/
+ns-studio/
 ├── .nvmrc                       22.23.2
 ├── wrangler.jsonc               assets + run_worker_first
 ├── .github/workflows/ci.yml     build → tests → déploiement
 │
 ├── packages/
-│   └── ui/        @kinetiq/ui              variables de thème, socle, impression
+│   └── ui/        @ns-studio/ui              variables de thème, socle, impression
 │
 ├── modules/profile/
-│   ├── contract/  @kinetiq/profile-contract     types · valideProfile() · profile.fr.json
-│   ├── ui/        @kinetiq/profile-ui           la page Angular
-│   └── api/       @kinetiq/profile-api          les routes Hono
+│   ├── contract/  @ns-studio/profile-contract     types · valideProfile() · profile.fr.json
+│   ├── ui/        @ns-studio/profile-ui           la page Angular
+│   └── api/       @ns-studio/profile-api          les routes Hono
 │
 └── apps/
-    ├── api/       @kinetiq/api             le Worker : monte les routes des modules
-    ├── profile/   @kinetiq/profile-app     le micro front-end profil
-    └── web/       @kinetiq/web             la shell Angular : navigation + remotes
+    ├── api/       @ns-studio/api             le Worker : monte les routes des modules
+    ├── profile/   @ns-studio/profile-app     le micro front-end profil
+    └── web/       @ns-studio/web             la shell Angular : navigation + remotes
 ```
 
 `contract/` est importé par l'API et par l'application profile. La shell, elle, ne compile pas le
@@ -167,5 +167,5 @@ Angular 22 (zoneless, signaux, `httpResource`) · Hono 4 · Cloudflare Workers �
 workspaces npm · GitHub Actions.
 
 Aucune bibliothèque de composants, aucun framework CSS : le thème sombre et la version
-imprimable tiennent en deux feuilles de style dans `@kinetiq/ui`. **Cmd+P produit un PDF propre —
+imprimable tiennent en deux feuilles de style dans `@ns-studio/ui`. **Cmd+P produit un PDF propre —
 il n'y a pas de bouton « télécharger » à maintenir.**

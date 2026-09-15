@@ -24,7 +24,7 @@ const MOIS = [
  * — le contenu — vient de l'API, et le reste est du CSS.
  */
 @Component({
-  selector: 'kinetiq-profile',
+  selector: 'ns-profile',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './profile-page.html',
   styleUrl: './profile-page.css',

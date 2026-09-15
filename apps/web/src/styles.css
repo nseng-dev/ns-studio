@@ -1,3 +1,3 @@
 /* Le socle de la plateforme. Tout le reste vit dans les styles des composants de chaque module. */
-@import '@kinetiq/ui/tokens.css';
-@import '@kinetiq/ui/base.css';
+@import '@ns-studio/ui/tokens.css';
+@import '@ns-studio/ui/base.css';

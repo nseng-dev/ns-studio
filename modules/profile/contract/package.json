@@ -1,5 +1,5 @@
 {
-  "name": "@kinetiq/profile-contract",
+  "name": "@ns-studio/profile-contract",
   "version": "1.0.0",
   "private": true,
   "description": "Le contrat du module profil : types, validation et données. Importé par l'API Hono comme par l'interface Angular — c'est ce qui les empêche de diverger.",

@@ -1,7 +1,7 @@
 import { httpResource } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import type { Profile } from '@kinetiq/profile-contract';
+import type { Profile } from '@ns-studio/profile-contract';
 
 /**
  * L'accès du module profil à son API.

@@ -20,5 +20,5 @@ for (const remote of remotes) {
   await mkdir(destination, { recursive: true });
   await cp(source, destination, { recursive: true });
 
-  console.log(`[kinetiq] remote ${remote.nom} -> ${remote.destination}`);
+  console.log(`[ns-studio] remote ${remote.nom} -> ${remote.destination}`);
 }

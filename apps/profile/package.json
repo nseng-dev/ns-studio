@@ -1,5 +1,5 @@
 {
-  "name": "@kinetiq/profile-app",
+  "name": "@ns-studio/profile-app",
   "version": "1.0.0",
   "private": true,
   "description": "Micro front-end Profile. Application Angular indépendante, servie par la shell sous /remotes/profile/.",
@@ -13,9 +13,9 @@
     "@angular/compiler": "^22.1.4",
     "@angular/core": "^22.1.4",
     "@angular/platform-browser": "^22.1.4",
-    "@kinetiq/profile-contract": "*",
-    "@kinetiq/profile-ui": "*",
-    "@kinetiq/ui": "*",
+    "@ns-studio/profile-contract": "*",
+    "@ns-studio/profile-ui": "*",
+    "@ns-studio/ui": "*",
     "rxjs": "^7.8.2",
     "tslib": "^2.8.1"
   },

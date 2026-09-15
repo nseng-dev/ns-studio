@@ -5,12 +5,12 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
  * La shell de la plateforme : navigation, routes principales, chargement des remotes.
  */
 @Component({
-  selector: 'kinetiq-root',
+  selector: 'ns-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive, RouterOutlet],
   template: `
     <header class="shell">
-      <a class="shell__brand" routerLink="/profile">Kinetiq</a>
+      <a class="shell__brand" routerLink="/profile">NS Studio</a>
       <nav class="shell__nav" aria-label="Modules">
         <a routerLink="/profile" routerLinkActive="shell__link--actif" class="shell__link">
           Profil
@@ -24,7 +24,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     :host {
       display: block;
       min-block-size: 100dvh;
-      background: var(--kinetiq-fond, #faf9f7);
+      background: var(--ns-fond, #faf9f7);
     }
 
     .shell {
@@ -37,8 +37,9 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
       gap: 1rem;
       min-block-size: 3.25rem;
       padding: 0.75rem clamp(1rem, 4vw, 2.5rem);
-      border-block-end: 1px solid color-mix(in srgb, var(--kinetiq-encre, #1a1a1c), transparent 86%);
-      background: color-mix(in srgb, var(--kinetiq-fond, #faf9f7), white 8%);
+      border-block-end: 1px solid var(--ns-trait, #d8d8d8);
+      background: color-mix(in srgb, var(--ns-fond, #ffffff), transparent 4%);
+      backdrop-filter: blur(16px);
     }
 
     .shell__brand,
@@ -64,7 +65,8 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     }
 
     .shell__link--actif {
-      background: color-mix(in srgb, var(--kinetiq-accent, #17564a), transparent 86%);
+      background: var(--ns-encre, #111111);
+      color: var(--ns-fond, #ffffff);
     }
   `,
 })

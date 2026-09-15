@@ -9,7 +9,7 @@
  * Un seul déploiement, une seule origine — donc aucun CORS à configurer.
  */
 
-import { routesProfile } from '@kinetiq/profile-api';
+import { routesProfile } from '@ns-studio/profile-api';
 import { Hono } from 'hono';
 
 const app = new Hono();

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ProfilePage } from '@kinetiq/profile-ui';
+import { ProfilePage } from '@ns-studio/profile-ui';
 
 @Component({
-  selector: 'kinetiq-profile-remote',
+  selector: 'ns-profile-remote',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ProfilePage],
-  template: '<kinetiq-profile />',
+  template: '<ns-profile />',
 })
 export class ProfileRemoteApp {}

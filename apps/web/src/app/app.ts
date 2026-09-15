@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 /**
@@ -7,12 +8,17 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'ns-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [MatButtonModule, RouterLink, RouterLinkActive, RouterOutlet],
   template: `
     <header class="shell">
       <a class="shell__brand" routerLink="/profile">NS Studio</a>
       <nav class="shell__nav" aria-label="Modules">
-        <a routerLink="/profile" routerLinkActive="shell__link--actif" class="shell__link">
+        <a
+          matButton="tonal"
+          routerLink="/profile"
+          routerLinkActive="shell__link--actif"
+          class="shell__link"
+        >
           Profil
         </a>
       </nav>
@@ -24,7 +30,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     :host {
       display: block;
       min-block-size: 100dvh;
-      background: var(--ns-fond, #faf9f7);
+      background: var(--ns-fond, #fcfbff);
     }
 
     .shell {
@@ -35,10 +41,10 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      min-block-size: 3.25rem;
+      min-block-size: 4rem;
       padding: 0.75rem clamp(1rem, 4vw, 2.5rem);
       border-block-end: 1px solid var(--ns-trait, #d8d8d8);
-      background: color-mix(in srgb, var(--ns-fond, #ffffff), transparent 4%);
+      background: color-mix(in srgb, var(--ns-fond, #fcfbff), transparent 6%);
       backdrop-filter: blur(16px);
     }
 
@@ -50,6 +56,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
     .shell__brand {
       font-weight: 700;
+      letter-spacing: 0.01em;
     }
 
     .shell__nav {
@@ -59,14 +66,11 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     }
 
     .shell__link {
-      padding: 0.35rem 0.6rem;
-      border-radius: 6px;
       font-size: 0.95rem;
     }
 
     .shell__link--actif {
-      background: var(--ns-encre, #111111);
-      color: var(--ns-fond, #ffffff);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ns-accent, #7b2cbf), transparent 55%);
     }
   `,
 })

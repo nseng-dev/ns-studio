@@ -10,6 +10,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "@angular/material": "^22.1.6",
     "@ns-studio/profile-contract": "*"
   }
 }

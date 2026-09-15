@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   selector: 'ns-remote-frame',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './remote-frame.html',
-  styleUrl: './remote-frame.css',
+  styleUrl: './remote-frame.scss',
 })
 export class RemoteFrame {
   private readonly sanitizer = inject(DomSanitizer);

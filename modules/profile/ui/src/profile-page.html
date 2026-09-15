@@ -3,7 +3,9 @@
 } @else if (ressource.error()) {
   <p class="etat etat--erreur" role="alert">
     Le profil n'a pas pu être chargé.
-    <button type="button" class="reessayer" (click)="ressource.reload()">Réessayer</button>
+    <button type="button" matButton="outlined" class="reessayer" (click)="ressource.reload()">
+      Réessayer
+    </button>
   </p>
 } @else if (profile(); as donnees) {
   <article class="profile">
@@ -65,11 +67,11 @@
                   </ul>
                 }
                 @if (exp.technologies?.length) {
-                  <ul class="etiquettes">
+                  <mat-chip-set class="etiquettes" aria-label="Technologies utilisées">
                     @for (techno of exp.technologies; track techno) {
-                      <li>{{ techno }}</li>
+                      <mat-chip>{{ techno }}</mat-chip>
                     }
-                  </ul>
+                  </mat-chip-set>
                 }
               </li>
             }
@@ -103,11 +105,11 @@
           @for (groupe of donnees.competences; track groupe.libelle) {
             <div class="groupe">
               <h3 class="groupe__titre">{{ groupe.libelle }}</h3>
-              <ul class="etiquettes">
+              <mat-chip-set class="etiquettes" aria-label="Compétences">
                 @for (item of groupe.items; track item) {
-                  <li>{{ item }}</li>
+                  <mat-chip>{{ item }}</mat-chip>
                 }
-              </ul>
+              </mat-chip-set>
             </div>
           }
         </section>

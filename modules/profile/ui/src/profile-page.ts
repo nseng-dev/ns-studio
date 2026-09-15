@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { ProfileApi } from './profile-api';
 
@@ -26,8 +28,9 @@ const MOIS = [
 @Component({
   selector: 'ns-profile',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatButtonModule, MatChipsModule],
   templateUrl: './profile-page.html',
-  styleUrl: './profile-page.css',
+  styleUrl: './profile-page.scss',
 })
 export class ProfilePage {
   private readonly api = inject(ProfileApi);

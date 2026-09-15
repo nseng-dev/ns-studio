@@ -36,7 +36,7 @@ ns-studio/
 ├── .github/workflows/ci.yml     build → tests → déploiement
 │
 ├── packages/
-│   └── ui/        @ns-studio/ui              variables de thème, socle, impression
+│   └── ui/        @ns-studio/ui              thème Angular Material, socle, impression
 │
 ├── modules/profile/
 │   ├── contract/  @ns-studio/profile-contract     types · valideProfile() · profile.fr.json
@@ -167,5 +167,5 @@ Angular 22 (zoneless, signaux, `httpResource`) · Hono 4 · Cloudflare Workers �
 workspaces npm · GitHub Actions.
 
 Aucune bibliothèque de composants, aucun framework CSS : le thème sombre et la version
-imprimable tiennent en deux feuilles de style dans `@ns-studio/ui`. **Cmd+P produit un PDF propre —
+imprimable tiennent en deux feuilles SCSS dans `@ns-studio/ui`. **Cmd+P produit un PDF propre —
 il n'y a pas de bouton « télécharger » à maintenir.**

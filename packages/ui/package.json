@@ -2,11 +2,14 @@
   "name": "@ns-studio/ui",
   "version": "1.0.0",
   "private": true,
-  "description": "Le socle visuel de la plateforme : variables de thème, typographie, impression. Du CSS pur, donc aucune étape de construction.",
+  "description": "Le socle visuel de la plateforme : thème Sass Angular Material, variables, typographie et impression.",
   "type": "module",
+  "dependencies": {
+    "@angular/material": "^22.1.6"
+  },
   "exports": {
-    "./tokens.css": "./src/tokens.css",
-    "./base.css": "./src/base.css"
+    "./tokens.scss": "./src/tokens.scss",
+    "./base.scss": "./src/base.scss"
   },
   "files": [
     "src"

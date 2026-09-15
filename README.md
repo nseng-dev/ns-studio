@@ -3,7 +3,7 @@
 Plateforme Kinetiq. **Un seul Worker Cloudflare, une shell Angular, des micro front-ends indépendants.**
 Le premier module est le profil.
 
-**En ligne : <https://kinetiq.dev>**
+**En ligne : <https://ns.latech.workers.dev>**
 
 ```
                         Navigateur du visiteur

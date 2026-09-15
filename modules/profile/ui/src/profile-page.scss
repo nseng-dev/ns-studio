@@ -16,7 +16,7 @@ $radius: var(--ns-rayon-grand);
   min-block-size: 100dvh;
   padding: clamp(1rem, 4vw, 3rem);
   background:
-    radial-gradient(circle at 13% 14%, var(--ns-halo-primaire), transparent 28rem),
+    radial-gradient(circle at 13% 14%, rgb(0 0 0 / 7%), transparent 24rem),
     radial-gradient(circle at 88% 8%, var(--ns-halo-secondaire), transparent 26rem),
     radial-gradient(circle at 65% 48%, var(--ns-halo-tiers), transparent 30rem),
     linear-gradient(135deg, color-mix(in srgb, $primary, transparent 94%), transparent 36rem),
@@ -33,7 +33,7 @@ $radius: var(--ns-rayon-grand);
 :host::before {
   content: '';
   position: fixed;
-  z-index: -2;
+  z-index: 0;
   inset: 0;
   pointer-events: none;
   background:
@@ -107,6 +107,8 @@ $radius: var(--ns-rayon-grand);
 }
 
 .profile {
+  position: relative;
+  z-index: 1;
   max-width: var(--ns-largeur-page);
   margin: 0 auto;
 }

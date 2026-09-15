@@ -30,7 +30,18 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     :host {
       display: block;
       min-block-size: 100dvh;
-      background: var(--ns-fond, #fcfbff);
+      background:
+        radial-gradient(
+          circle at 12% 0,
+          var(--ns-halo-primaire, rgb(123 44 191 / 18%)),
+          transparent 26rem
+        ),
+        radial-gradient(
+          circle at 88% 4rem,
+          var(--ns-halo-secondaire, rgb(210 47 143 / 14%)),
+          transparent 24rem
+        ),
+        var(--ns-fond, #fcfbff);
     }
 
     .shell {
@@ -55,6 +66,10 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     }
 
     .shell__brand {
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--ns-accent, #7b2cbf), transparent 90%);
+      color: var(--ns-accent, #7b2cbf);
       font-weight: 700;
       letter-spacing: 0.01em;
     }

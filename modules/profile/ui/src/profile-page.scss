@@ -6,16 +6,74 @@ $quiet: var(--ns-encre-faible);
 $line: var(--ns-trait);
 $primary: var(--ns-accent);
 $secondary: var(--ns-accent-secondaire);
+$tertiary: var(--ns-accent-tiers);
 $radius: var(--ns-rayon-grand);
 
 :host {
+  position: relative;
+  isolation: isolate;
   display: block;
   min-block-size: 100dvh;
   padding: clamp(1rem, 4vw, 3rem);
   background:
-    linear-gradient(135deg, color-mix(in srgb, $primary, transparent 92%), transparent 42rem),
-    linear-gradient(180deg, color-mix(in srgb, $secondary, transparent 94%), transparent 30rem),
+    radial-gradient(circle at 13% 14%, var(--ns-halo-primaire), transparent 28rem),
+    radial-gradient(circle at 88% 8%, var(--ns-halo-secondaire), transparent 26rem),
+    radial-gradient(circle at 65% 48%, var(--ns-halo-tiers), transparent 30rem),
+    linear-gradient(135deg, color-mix(in srgb, $primary, transparent 94%), transparent 36rem),
     var(--ns-fond);
+}
+
+:host::before {
+  content: '';
+  position: fixed;
+  z-index: -2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at center,
+      color-mix(in srgb, $primary, transparent 82%) 0 1px,
+      transparent 1.5px
+    ),
+    linear-gradient(
+      115deg,
+      transparent 0 55%,
+      color-mix(in srgb, $secondary, transparent 92%) 55% 56%,
+      transparent 56%
+    ),
+    linear-gradient(
+      65deg,
+      transparent 0 62%,
+      color-mix(in srgb, $tertiary, transparent 91%) 62% 63%,
+      transparent 63%
+    );
+  background-size:
+    28px 28px,
+    100% 100%,
+    100% 100%;
+  mask-image: linear-gradient(180deg, black, transparent 78%);
+  opacity: 0.72;
+}
+
+:host::after {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  inset: auto -12rem -18rem auto;
+  inline-size: min(42rem, 82vw);
+  aspect-ratio: 1;
+  pointer-events: none;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 215deg,
+    transparent,
+    color-mix(in srgb, $primary, transparent 70%),
+    color-mix(in srgb, $secondary, transparent 76%),
+    color-mix(in srgb, $tertiary, transparent 78%),
+    transparent
+  );
+  filter: blur(42px);
+  opacity: 0.6;
 }
 
 .profile {
@@ -27,8 +85,9 @@ $radius: var(--ns-rayon-grand);
 .bloc {
   border: 1px solid $line;
   border-radius: $radius;
-  background: color-mix(in srgb, $surface, transparent 4%);
+  background: color-mix(in srgb, $surface, transparent 10%);
   box-shadow: var(--ns-ombre);
+  backdrop-filter: blur(18px);
 }
 
 .entete {
@@ -78,7 +137,12 @@ $radius: var(--ns-rayon-grand);
   border: 1px solid color-mix(in srgb, $primary, transparent 78%);
   border-radius: calc(#{$radius} - 8px);
   background:
-    linear-gradient(145deg, color-mix(in srgb, $primary, transparent 90%), transparent 75%),
+    radial-gradient(
+      circle at 100% 0,
+      color-mix(in srgb, $secondary, transparent 78%),
+      transparent 15rem
+    ),
+    linear-gradient(145deg, color-mix(in srgb, $primary, transparent 88%), transparent 75%),
     color-mix(in srgb, $surface-high, transparent 22%);
 }
 
@@ -186,6 +250,16 @@ $radius: var(--ns-rayon-grand);
   border: 1px solid transparent;
   border-radius: var(--ns-rayon);
   background: color-mix(in srgb, $surface-high, transparent 42%);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    border-color: color-mix(in srgb, $primary, transparent 72%);
+    background: color-mix(in srgb, $surface, transparent 10%);
+    transform: translateY(-1px);
+  }
 
   &::before {
     content: counter(item, decimal-leading-zero);

@@ -54,7 +54,11 @@ html {
   --ns-trait-fort: #cab8e8;
   --ns-accent: #7b2cbf;
   --ns-accent-secondaire: #d22f8f;
+  --ns-accent-tiers: #0f8bdc;
   --ns-accent-fond: #f2e7ff;
+  --ns-halo-primaire: rgb(123 44 191 / 26%);
+  --ns-halo-secondaire: rgb(210 47 143 / 20%);
+  --ns-halo-tiers: rgb(15 139 220 / 16%);
   --ns-ombre: 0 16px 48px rgb(31 20 51 / 10%);
 
   /* ---- Typographie ---- */
@@ -96,7 +100,11 @@ html {
     --ns-trait-fort: #7d6798;
     --ns-accent: #d0bcff;
     --ns-accent-secondaire: #ffafd3;
+    --ns-accent-tiers: #9bd6ff;
     --ns-accent-fond: #33264a;
+    --ns-halo-primaire: rgb(208 188 255 / 28%);
+    --ns-halo-secondaire: rgb(255 175 211 / 18%);
+    --ns-halo-tiers: rgb(155 214 255 / 14%);
     --ns-ombre: none;
   }
 }
@@ -117,7 +125,11 @@ html {
     --ns-trait-fort: #999999;
     --ns-accent: #000000;
     --ns-accent-secondaire: #000000;
+    --ns-accent-tiers: #000000;
     --ns-accent-fond: #ffffff;
+    --ns-halo-primaire: transparent;
+    --ns-halo-secondaire: transparent;
+    --ns-halo-tiers: transparent;
     --ns-ombre: none;
   }
 }

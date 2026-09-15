@@ -21,6 +21,13 @@ $radius: var(--ns-rayon-grand);
     radial-gradient(circle at 65% 48%, var(--ns-halo-tiers), transparent 30rem),
     linear-gradient(135deg, color-mix(in srgb, $primary, transparent 94%), transparent 36rem),
     var(--ns-fond);
+  background-size:
+    110% 110%,
+    120% 120%,
+    115% 115%,
+    100% 100%,
+    auto;
+  animation: ns-liftoff-glow 24s ease-in-out infinite alternate;
 }
 
 :host::before {
@@ -53,6 +60,43 @@ $radius: var(--ns-rayon-grand);
     100% 100%;
   mask-image: linear-gradient(180deg, black, transparent 78%);
   opacity: 0.72;
+  animation: ns-field-drift 36s linear infinite;
+}
+
+@keyframes ns-liftoff-glow {
+  0% {
+    background-position:
+      0% 0%,
+      100% 0%,
+      62% 45%,
+      0% 0%,
+      0 0;
+  }
+
+  100% {
+    background-position:
+      7% 1%,
+      91% 9%,
+      66% 54%,
+      0% 0%,
+      0 0;
+  }
+}
+
+@keyframes ns-field-drift {
+  0% {
+    background-position:
+      0 0,
+      0 0,
+      0 0;
+  }
+
+  100% {
+    background-position:
+      28px 28px,
+      0 0,
+      0 0;
+  }
 }
 
 .profile {
@@ -426,6 +470,13 @@ $radius: var(--ns-rayon-grand);
   .details,
   .etiquettes {
     grid-column: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host,
+  :host::before {
+    animation: none;
   }
 }
 

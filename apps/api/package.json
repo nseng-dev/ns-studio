@@ -7,6 +7,7 @@
   "main": "./src/index.ts",
   "dependencies": {
     "@ns-studio/profile-api": "*",
+    "@ns-studio/profile-contract": "*",
     "hono": "^4.13.5"
   },
   "devDependencies": {

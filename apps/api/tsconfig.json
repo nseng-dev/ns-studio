@@ -1,0 +1,38 @@
+{
+  // Ce projet ne compile rien : wrangler assemble le Worker avec esbuild, qui efface les types
+  // sans les vérifier. Sans ce fichier, `apps/api/src` et `modules/profile/api/src` — le seul
+  // code qui tourne en production côté serveur — n'étaient couverts par aucun `tsc`.
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    // Vérification seule : la sortie reste l'affaire de wrangler.
+    "noEmit": true,
+
+    // `tsconfig.base.json` inclut `DOM` pour les applications Angular. Un Worker n'a ni
+    // `document` ni `window` : les retirer ici évite qu'un code impossible en production
+    // passe la vérification.
+    //
+    // ⚠️ Les globales du runtime Cloudflare (`Fetcher`, `DurableObjectNamespace`…) ne sont
+    // donc pas déclarées. Elles viendraient de `npx wrangler types`, qui exige workerd —
+    // impossible sur ce poste (macOS 12.6 < 13.5). Sans conséquence aujourd'hui : aucun binding
+    // n'est utilisé dans le code, `ASSETS` est servi par `wrangler.jsonc`. À reprendre le jour
+    // où le Worker lira `env`. Voir docs/audit/suivi-phase-0.md.
+    "lib": ["ES2022"],
+
+    // `dev-node.ts` utilise `process` et `@hono/node-server`.
+    "types": ["node"],
+
+    // Le contrat est visé par ses **sources**, pas par le `dist/` qu'il produit : la vérification
+    // doit fonctionner sur un dépôt fraîchement cloné, avant toute construction — c'est le cas en
+    // CI, où `typecheck` précède `build`. Vérifier les sources attrape en outre les erreurs que
+    // des types déclarés obsolètes masqueraient.
+    "paths": {
+      "@ns-studio/profile-contract": ["../../modules/profile/contract/src/index.ts"]
+    }
+  },
+
+  // Le module profil n'a pas de `tsconfig` à lui : ses routes sont vérifiées ici, avec le Worker
+  // qui les monte. C'est le même programme en production, ce doit être le même programme pour
+  // `tsc`.
+  "include": ["src/**/*.ts", "../../modules/profile/api/src/**/*.ts"]
+}

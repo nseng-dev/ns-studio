@@ -10,6 +10,7 @@
  */
 
 import { routesProfile } from '@ns-studio/profile-api';
+import { type ErreurApi } from '@ns-studio/profile-contract';
 import { Hono } from 'hono';
 
 const app = new Hono();
@@ -21,9 +22,14 @@ app.route('/api/profile', routesProfile);
  *
  * Sans lui, une faute de frappe sur `/api/…` renverrait la coquille Angular en HTML, et le
  * client échouerait à l'analyser avec un message incompréhensible.
+ *
+ * Le corps est annoté `ErreurApi` : les deux erreurs de l'API — contenu invalide et route
+ * inconnue — passent ainsi par le même type, vérifié à la compilation. La réponse envoyée est
+ * exactement celle d'avant.
  */
-app.notFound((c) =>
-  c.json({ code: 'ROUTE_INCONNUE', message: `Aucune route ${c.req.path}.` }, 404),
-);
+app.notFound((c) => {
+  const corps: ErreurApi = { code: 'ROUTE_INCONNUE', message: `Aucune route ${c.req.path}.` };
+  return c.json(corps, 404);
+});
 
 export default app;

@@ -94,7 +94,7 @@ function date(c: Contrôle, valeur: unknown, chemin: string, motif: RegExp, exem
 /**
  * Vérifie qu'une valeur inconnue est un profil exploitable.
  *
- * Ne renvoie jamais d'exception : l'appelant décide quoi faire de l'échec (503 côté API,
+ * Ne renvoie jamais d'exception : l'appelant décide quoi faire de l'échec (500 côté API,
  * sortie non nulle côté CI).
  */
 export function valideProfile(valeur: unknown): Resultat {

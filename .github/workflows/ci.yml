@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Le déploiement n'est plus un effet de bord d'un push : il se déclenche à la main,
+  # depuis l'onglet Actions. Voir le job « deploy » et son commentaire, plus bas.
+  workflow_dispatch:
 
 # Un nouveau push sur une PR annule le run précédent : inutile de payer deux fois.
 concurrency:
@@ -13,9 +16,18 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  # Une seule version de npm, ici comme sur les postes de développement.
+  #
+  # Node 22.23.2 embarque npm 10.9.8, antérieur au correctif de npm/cli#4828 — le bug qui a
+  # amputé ce dépôt de 172 de ses 193 dépendances optionnelles de plateforme, et fait échouer
+  # sept exécutions de CI d'affilée. Le correctif est arrivé en npm 11.3.0. Épingler la version
+  # ici évite que la CI et les postes ne divergent silencieusement.
+  VERSION_NPM: '12.2.0'
+
 jobs:
   ci:
-    name: Build, tests et déploiement
+    name: Build et tests
     runs-on: ubuntu-latest
 
     steps:
@@ -28,29 +40,74 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
+      - name: Épingler npm
+        run: npm install -g npm@${{ env.VERSION_NPM }}
+
+      # Avant même d'installer : un lock amputé de ses binaires Linux ne peut pas produire de
+      # build ici, et le message d'erreur d'esbuild ne dit pas pourquoi. Cette garde, elle, le dit.
+      - name: Le lockfile est complet
+        run: npm run verify:lockfile
+
       - name: Installation
         run: npm ci
 
-      # Le CV est le seul contenu du site : s'il ne respecte plus son contrat, il n'y a
+      # Le profil est le seul contenu du site : s'il ne respecte plus son contrat, il n'y a
       # rien à afficher. C'est la garde la plus importante de ce fichier, d'où sa place
       # avant tout le reste.
-      - name: Le CV est valide
+      - name: Le profil est valide
         run: npm test
 
       - name: Build (contrat, puis interface Angular)
         run: npm run build
 
-      # Répétition générale du déploiement, sans rien envoyer : wrangler assemble le Worker
-      # et relit le dossier d'assets. Une erreur de configuration se voit donc sur la PR,
-      # et non une fois en production.
+      # `--dry-run` assemble le Worker et relit le dossier d'assets sans rien envoyer, et sans
+      # authentification : wrangler saute `requireAuth` dans ce mode. Une erreur de configuration
+      # se voit donc sur la PR, et non une fois en production.
       - name: Le Worker s'assemble
-        if: github.event_name == 'pull_request'
         run: npx wrangler deploy --dry-run
 
-      # Seul `main` déploie. Le secret CLOUDFLARE_API_TOKEN se pose dans
-      # Settings → Secrets and variables → Actions.
-      - name: Déploiement sur Cloudflare Workers
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Le dépôt est formaté
+        run: npm run format:check
+
+  # ---------------------------------------------------------------------------
+  # Déploiement — DÉCLENCHEMENT MANUEL UNIQUEMENT.
+  #
+  # Garde de la Phase 0. Auparavant le déploiement était attaché au push sur `main` : la
+  # production pouvait donc être écrasée par un simple commit, sans relecture et sans garde
+  # verte — et le README le décrivait comme un acquis alors qu'il n'avait jamais fonctionné.
+  #
+  # `workflow_dispatch` seul : il faut ouvrir l'onglet Actions et cliquer. Un push ne déploie
+  # plus rien, jamais.
+  #
+  # ⚠️ Le secret CLOUDFLARE_API_TOKEN N'EXISTE PAS encore dans ce dépôt — c'est la cause des
+  # deux premiers échecs de CI (2026-09-10 et 09-11), avant même le problème de lockfile. Tant
+  # qu'il n'est pas posé, ce job échouera s'il est déclenché : le déploiement se fait à la main,
+  # en local. Voir docs/audit/suivi-phase-0.md.
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: Déploiement sur Cloudflare Workers (manuel)
+    if: github.event_name == 'workflow_dispatch'
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Épingler npm
+        run: npm install -g npm@${{ env.VERSION_NPM }}
+
+      - name: Installation
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Déploiement
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -5,7 +5,8 @@
   "description": "Plateforme NS Studio : une shell Angular, un Worker Cloudflare, des modules indépendants.",
   "type": "module",
   "engines": {
-    "node": ">=22.22.3"
+    "node": ">=22.22.3 <23",
+    "npm": ">=12.2.0"
   },
   "workspaces": [
     "packages/*",
@@ -24,8 +25,10 @@
     "dev:profile": "npm run build:contract && npm run start --workspace @ns-studio/profile-app",
     "dev:web": "npm run build:contract && npm run start --workspace @ns-studio/web",
     "test": "node --import tsx --test modules/profile/contract/test/*.test.ts",
+    "verify:lockfile": "node scripts/verifie-lockfile.mjs",
     "deploy": "npm run build && wrangler deploy",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

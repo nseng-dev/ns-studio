@@ -8,13 +8,13 @@
 
 ## Tableau de bord
 
-|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                                  |
-| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare bloqué** : jeton OAuth expiré.              |
-| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**      | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet. |
-| **2** | Typage du Worker                          | 🟡 **in-review** | `fix/typecheck`          | _(à ouvrir)_                                        | `apps/api` et `modules/profile/api` couverts par `tsc`. Aucune erreur de type dans le code applicatif. |
-| **3** | Garde de déploiement, doc fidèle, licence | ⬜ todo          | `fix/doc-licence`        | —                                                   | **Périmètre élargi** — voir « Reporté au lot 3 ». Après merge du lot 2.                                |
-| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                                  |
+|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                                                   |
+| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare bloqué** : jeton OAuth expiré.                               |
+| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**      | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet.                  |
+| **2** | Typage du Worker                          | 🟡 **in-review** | `fix/typecheck`          | [#2](https://github.com/nseng-dev/ns-studio/pull/2) | **CI verte** (11/11 étapes). `apps/api` et `modules/profile/api` couverts par `tsc`, aucune erreur de type applicative. |
+| **3** | Garde de déploiement, doc fidèle, licence | ⬜ todo          | `fix/doc-licence`        | —                                                   | **Périmètre élargi** — voir « Reporté au lot 3 ». Après merge du lot 2.                                                 |
+| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                                                   |
 
 Statuts : ⬜ todo · 🔵 in-progress · 🟡 in-review · ✅ done
 
@@ -334,6 +334,15 @@ ou adopter `@cloudflare/workers-types`. Consigné au journal des leçons.
 
 Les deux applications Angular, elles, consomment le contrat par son `dist/` (c'est ainsi que `ng build` le
 voit) : `typecheck` construit donc le contrat en premier. Cette dépendance est explicite dans le script.
+
+### La CI confirme
+
+PR [#2](https://github.com/nseng-dev/ns-studio/pull/2), exécution
+[41543875221](https://github.com/nseng-dev/ns-studio/actions/runs/41543875221) : **11 étapes sur 11 au vert
+en 54 s**, dont « Les types tiennent », et job de déploiement **non déclenché** (`skipping`).
+
+Cette exécution vérifie en passant la conception retenue : la CI part d'un dépôt fraîchement cloné, sans
+`dist/`, et `typecheck` y précède `build` — la vérification ne dépend donc d'aucun artefact préexistant.
 
 ### 🟥 Friction — `npm install --package-lock-only` défait la réparation du lot 1
 

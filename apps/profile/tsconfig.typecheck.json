@@ -1,0 +1,16 @@
+{
+  // Vérification de types seule — `tsconfig.app.json` reste intacte : c'est la configuration que
+  // lit `ng build`, et la Phase 0 ne touche pas à la sortie de construction.
+  //
+  // Pourquoi ce fichier existe : `tsconfig.app.json` déclare un `outDir`, et cette application
+  // importe `@ns-studio/profile-ui` depuis `modules/`, hors de son dossier. `tsc` en déduit un
+  // `rootDir` à `apps/profile` et refuse les trois fichiers du module (TS6059) — une objection
+  // qui ne porte que sur la disposition des fichiers émis, alors qu'ici on n'émet rien.
+  // `rootDir` est donc élargi à la racine du dépôt, ce qui laisse `tsc` vérifier l'application
+  // **et** le module d'interface qu'elle consomme.
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "../.."
+  }
+}

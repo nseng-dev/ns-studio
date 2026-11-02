@@ -8,13 +8,13 @@
 
 ## Tableau de bord
 
-|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                      |
-| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare bloqué** : jeton OAuth expiré.  |
-| **1** | Lockfile multi-plateforme + npm unique    | 🟡 **in-review** | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | **CI VERTE** (1re fois). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet. |
-| **2** | Typage du Worker                          | ⬜ todo          | `fix/typecheck`          | —                                                   | Après merge du lot 1.                                                                      |
-| **3** | Garde de déploiement, doc fidèle, licence | ⬜ todo          | `fix/doc-licence`        | —                                                   | Après merge du lot 2.                                                                      |
-| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                      |
+|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                                                   |
+| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare bloqué** : jeton OAuth expiré.                               |
+| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**      | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet.                  |
+| **2** | Typage du Worker                          | 🟡 **in-review** | `fix/typecheck`          | [#2](https://github.com/nseng-dev/ns-studio/pull/2) | **CI verte** (11/11 étapes). `apps/api` et `modules/profile/api` couverts par `tsc`, aucune erreur de type applicative. |
+| **3** | Garde de déploiement, doc fidèle, licence | ⬜ todo          | `fix/doc-licence`        | —                                                   | **Périmètre élargi** — voir « Reporté au lot 3 ». Après merge du lot 2.                                                 |
+| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                                                   |
 
 Statuts : ⬜ todo · 🔵 in-progress · 🟡 in-review · ✅ done
 
@@ -95,6 +95,12 @@ mais wrangler détecte un shell non interactif et refuse de rafraîchir tout seu
 **Seconde tentative — 2026-11-02 20:46 UTC** : échec identique. Le fichier de configuration porte toujours
 `expiration_time = "2026-09-28T20:25:32.643Z"`, **inchangé** : la session n'a pas été renouvelée.
 
+**Troisième tentative — 2026-11-02 22:59 UTC** : échec identique, même message. `default.toml` est toujours
+daté du **28 septembre 21:25** et porte la même `expiration_time` — la session n'a **pas** été renouvelée.
+Le bloc de sortie attendu dans la consigne du lot 2 est arrivé vide (le texte de remplacement n'avait pas
+été substitué), et l'onglet Terminal ne contenait aucune commande lancée. Les trois champs restent donc
+ouverts : **rien n'a été relevé, rien n'a été inventé.**
+
 | Champ                            | Valeur             |
 | -------------------------------- | ------------------ |
 | Identifiant de la version active | ❓ **non relevé**  |
@@ -116,6 +122,51 @@ Me coller la sortie **réelle** : je remplirai le tableau ci-dessus.
 > donc aucun retour arrière ne devrait être nécessaire. Mais tant que l'identifiant n'est pas relevé,
 > la sauvegarde est **incomplète** (cf. portée de l'archive ci-dessus) : il faut le relever
 > **avant le déploiement manuel de fin de phase**, pas après.
+
+---
+
+## Protection de `main` — active depuis le 2026-11-02
+
+Réglée sur GitHub par le propriétaire du dépôt. Règles en vigueur :
+
+| Règle                                                    | Effet                                                                                                            |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Pull request obligatoire, **0 approbation** requise      | Travail en solo : la relecture est celle de la CI, pas d'un second humain.                                       |
+| Check **« Build et tests » obligatoire**                 | Le job `ci` de `.github/workflows/ci.yml`. Rouge ⇒ fusion impossible.                                            |
+| Branche **à jour avec `main`** avant la fusion           | Pas de fusion sur une base périmée : la CI qui valide est celle du code qui atterrit.                            |
+| **Conversations résolues** obligatoires                  | Aucune remarque de relecture ne se perd dans une PR fusionnée.                                                   |
+| **Historique linéaire**, fusion en **squash uniquement** | Un lot = un commit sur `main`. **Le titre de la PR devient ce commit** : il doit respecter Conventional Commits. |
+| **Aucun contournement, même administrateur**             | Plus aucun push direct sur `main` — y compris par le propriétaire.                                               |
+| Suppression automatique de la branche après fusion       | Pas de branches mortes à trier.                                                                                  |
+
+> **Conséquence pour la boucle de travail** : le titre de la PR n'est plus cosmétique, c'est le message de
+> commit de `main`. Il est rédigé en Conventional Commits dès l'ouverture, pas corrigé au moment de fusionner.
+
+> **Note sur le lot 1** : la PR #1 a été fusionnée en **commit de fusion** (`833fe47`), avant l'activation de
+> la règle d'historique linéaire. Les lots suivants produiront un commit de squash unique.
+
+---
+
+## Reporté au lot 3 — périmètre élargi
+
+Relevé en relisant le fichier CI installé par le lot 1. Rien ici n'est appliqué dans le lot 2 : ces points
+partent dans la PR `fix/doc-licence`.
+
+### `.github/workflows/ci.yml`
+
+| Changement                                                                                       | Pourquoi                                                                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Job `deploy` : `if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'` | Aujourd'hui le déclenchement manuel accepte **n'importe quelle branche** : une branche de travail peut partir en production depuis l'onglet Actions. La garde « un push ne déploie plus » existe, celle-ci manque. |
+| `concurrency.cancel-in-progress: ${{ github.event_name == 'pull_request' }}`                     | Aujourd'hui un push sur `main` **annule un déploiement en cours** : l'économie utile sur une PR devient une interruption au milieu d'un envoi vers la production.                                                  |
+
+### `CLAUDE.md`, partie « Standard commun »
+
+À inscrire, en plus de ce que prévoit le plan :
+
+- les sept règles de protection de `main` ci-dessus ;
+- **titre de PR = commit de squash = Conventional Commits** ;
+- les deux règles de CI ci-dessus : **un déploiement manuel ne part que de `main`**, et **un push n'annule
+  jamais un déploiement en cours**.
 
 ---
 
@@ -186,6 +237,125 @@ conservée pour que l'arbre installé reste celui d'avant.
 
 ---
 
+## Lot 2 — Détail
+
+### Le problème
+
+`apps/api/src` (le Worker) et `modules/profile/api/src` (les routes du module profil) n'étaient couverts par
+**aucun** `tsconfig`. Wrangler les assemble avec esbuild, qui efface les types sans les vérifier : le seul
+code serveur de la plateforme ne passait donc sous aucun contrôle de types, ni en local ni en CI.
+
+### Le résultat
+
+| Critère                                                                                      | Verdict                                                                                                                                         |
+| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/api/src` + `modules/profile/api/src` couverts par `tsc`                                | ✅ 8 fichiers dans le programme, erreurs prouvées détectées                                                                                     |
+| Erreurs de types dans le code applicatif                                                     | ✅ **aucune** — rien à corriger, donc rien de modifié                                                                                           |
+| `apps/profile` (le point de vigilance du plan)                                               | ✅ **3 erreurs, toutes TS6059** — configuration, pas types                                                                                      |
+| `npm ci` · `verify:lockfile` · `test` · `typecheck` · `build` · `--dry-run` · `format:check` | ✅ tout vert sous Node 22.23.2 / npm 12.2.0                                                                                                     |
+| Lockfile                                                                                     | ✅ 193 optionnelles déclarées / **0 absente** ; `--compare` : 182 ajouts, **0 modif, 0 suppr**                                                  |
+| Build inchangé                                                                               | ✅ **identique octet pour octet** à l'archive du lot 0 (8/8)                                                                                    |
+| Réponses de l'API inchangées                                                                 | ✅ `/api/profile` identique au corps relevé en production ; `/api/inconnu` → `{"code":"ROUTE_INCONNUE","message":"Aucune route /api/inconnu."}` |
+
+### Le point de vigilance du plan — levé
+
+Le plan prévoyait un arrêt si `tsc -p apps/profile/tsconfig.app.json --noEmit` révélait beaucoup d'erreurs.
+Il en révèle **trois**, toutes de code **TS6059** (« File … is not under rootDir »), et aucune n'est une
+erreur de types : `tsconfig.app.json` déclare un `outDir`, l'application importe `@ns-studio/profile-ui`
+depuis `modules/`, et `tsc` en déduit un `rootDir` trop étroit. L'objection ne porte que sur la disposition
+des fichiers **émis** — or la vérification n'émet rien.
+
+Corrigé **sans toucher à la configuration de construction** : un `apps/profile/tsconfig.typecheck.json`
+dédié élargit `rootDir` à la racine du dépôt. `tsconfig.app.json`, que lit `ng build`, reste intact.
+Résultat : l'application **et** le module d'interface qu'elle consomme sont vérifiés, exit 0.
+
+**Aucune ligne de code applicatif n'a été modifiée pour faire passer la vérification.**
+
+### Ce que couvre la vérification, et ce qu'elle ne couvre pas
+
+`npm run typecheck` enchaîne quatre projets :
+
+| Projet                                    | Fichier                                                         | Portée                                                                |
+| ----------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------- |
+| contrat                                   | `modules/profile/contract/tsconfig.json` (via `build:contract`) | types, validation, données du profil                                  |
+| **Worker + routes du module** _(nouveau)_ | `apps/api/tsconfig.json`                                        | `apps/api/src/**` + `modules/profile/api/src/**` + sources du contrat |
+| shell Angular                             | `apps/web/tsconfig.app.json`                                    | `apps/web/src/**`                                                     |
+| remote Angular + module d'interface       | `apps/profile/tsconfig.typecheck.json`                          | `apps/profile/src/**` + `modules/profile/ui/src/**`                   |
+
+**Non couvert** : les gabarits Angular (`strictTemplates`) — c'est `ng build`, donc l'étape `build`, qui les
+contrôle ; et les globales du runtime Cloudflare (voir ci-dessous).
+
+### 🔴 `worker-configuration.d.ts` — non produit, et pourquoi ce n'est pas bloquant
+
+Le plan prévoyait `npx wrangler types apps/api/worker-configuration.d.ts`. La commande **échoue sur ce
+poste** : elle produit bien la partie « configuration » (l'interface `Env` avec son binding `ASSETS`), puis
+lance **workerd** pour en déduire les types du runtime — et workerd exige macOS 13.5+ (ce Mac : 12.6). Aucun
+fichier n'est écrit.
+
+```
+Generating project types...   ✅
+Generating runtime types...   ✘ Unsupported macOS version: … minimum requirement is macOS 13.5.0+
+```
+
+**Pourquoi ce n'est pas bloquant** : le Worker **ne lit aucun binding**. `ASSETS` est servi par
+`wrangler.jsonc` (`assets.binding`), jamais par le code ; `apps/api/src/index.ts` monte des routes Hono et
+rien d'autre. Un `Env` déclaré ne serait utilisé par aucune ligne. Générer un fichier à moitié — l'interface
+`Env` sans les types du runtime qu'elle référence (`Fetcher`) — aurait au contraire **cassé** la vérification.
+
+À la place, `apps/api/tsconfig.json` retire `DOM` de `lib` : un Worker n'a ni `document` ni `window`, et
+hériter de la configuration Angular laissait passer du code impossible en production (vérifié :
+`document.title` est désormais refusé).
+
+**Le jour où le Worker lira `env`**, deux voies — à trancher alors : générer le fichier sur Linux ou en CI,
+ou adopter `@cloudflare/workers-types`. Consigné au journal des leçons.
+
+### Fichiers touchés
+
+| Fichier                                    | Changement                                                                                                |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| `apps/api/tsconfig.json`                   | **nouveau** — couvre le Worker et les routes du module ; `lib: ["ES2022"]` ; contrat visé par ses sources |
+| `apps/profile/tsconfig.typecheck.json`     | **nouveau** — vérification seule, `rootDir` élargi ; `tsconfig.app.json` intact                           |
+| `package.json`                             | script `typecheck` (4 projets)                                                                            |
+| `apps/api/package.json`                    | dépendance `@ns-studio/profile-contract` déclarée — le Worker importe désormais son type d'erreur         |
+| `package-lock.json`                        | **+1 ligne**, édition chirurgicale de l'entrée `apps/api` (voir la friction ci-dessous)                   |
+| `.github/workflows/ci.yml`                 | étape « Les types tiennent » entre test et build                                                          |
+| `modules/profile/contract/src/contract.ts` | **M6** — `code: 'PROFILE_INVALIDE' \| 'ROUTE_INCONNUE'` ; commentaire « un seul code » corrigé            |
+| `modules/profile/contract/src/valide.ts`   | **M6** — commentaire : « 503 côté API » → **500**, ce que le code renvoie réellement                      |
+| `apps/api/src/index.ts`                    | réponse `notFound` annotée `ErreurApi`                                                                    |
+
+### Pourquoi le contrat est visé par ses **sources** dans `apps/api/tsconfig.json`
+
+`@ns-studio/profile-contract` s'importe normalement par son `dist/`. Deux raisons de le viser par ses sources :
+
+1. En CI, `typecheck` **précède** `build` : sur un dépôt fraîchement cloné, `dist/` n'existe pas encore.
+2. Des déclarations périmées masquent exactement l'erreur qu'on cherche — constaté en cours de route :
+   `ErreurApi` élargi dans la source mais encore étroit dans `dist/` faisait échouer la vérification du
+   Worker pour une mauvaise raison.
+
+Les deux applications Angular, elles, consomment le contrat par son `dist/` (c'est ainsi que `ng build` le
+voit) : `typecheck` construit donc le contrat en premier. Cette dépendance est explicite dans le script.
+
+### La CI confirme
+
+PR [#2](https://github.com/nseng-dev/ns-studio/pull/2), exécution
+[41543875221](https://github.com/nseng-dev/ns-studio/actions/runs/41543875221) : **11 étapes sur 11 au vert
+en 54 s**, dont « Les types tiennent », et job de déploiement **non déclenché** (`skipping`).
+
+Cette exécution vérifie en passant la conception retenue : la CI part d'un dépôt fraîchement cloné, sans
+`dist/`, et `typecheck` y précède `build` — la vérification ne dépend donc d'aucun artefact préexistant.
+
+### 🟥 Friction — `npm install --package-lock-only` défait la réparation du lot 1
+
+Ajouter la dépendance d'espace de travail par la commande normale a produit **3 ajouts et 19 suppressions**
+dans le lock pour une ligne voulue : npm 12 a **supprimé** l'entrée `@angular/animations` — la peer optionnelle
+réinjectée à la main au lot 1 — et resynchronisé `engines` au passage.
+
+Revenu en arrière, puis **édition chirurgicale** : une ligne ajoutée à l'entrée `apps/api` du lock. Les deux
+modes de la garde repassent ensuite au vert, dont `--compare` contre la photo du lot 0 : **0 modification,
+0 suppression**. Consigné au journal des leçons.
+
+---
+
 ## Journal des décisions
 
 | Date       | Décision                                                                                                                                                                                                           |
@@ -194,12 +364,15 @@ conservée pour que l'arbre installé reste celui d'avant.
 | 2026-11-02 | Déploiement isolé dans un job `workflow_dispatch` (YAML pur, relisible en PR, aucune écriture de configuration distante).                                                                                          |
 | 2026-11-02 | Aucun secret Cloudflare posé en Phase 0 : déploiement 100 % local.                                                                                                                                                 |
 | 2026-11-02 | Réparation du lock **sans suppression** ; critère bloquant : le diff ne contient que des ajouts.                                                                                                                   |
+| 2026-11-03 | `worker-configuration.d.ts` **non généré** en Phase 0 : `wrangler types` exige workerd, indisponible sur ce poste, et le Worker ne lit aucun binding. Décision reportée au jour où il lira `env`.                  |
+| 2026-11-03 | Vérification de types **indépendante de la construction** : le Worker vise les sources du contrat ; un `tsconfig.typecheck.json` dédié évite de toucher la configuration d'`ng build`.                             |
+| 2026-11-03 | Toute addition au lock reste **chirurgicale** tant que `@angular/animations` doit y être retenue à la main : `npm install --package-lock-only` la supprime.                                                        |
 
 ---
 
 ## Ce qui reste de ton côté (fin de phase)
 
-1. Activer la **protection de `main`** (PR obligatoire + check CI obligatoire).
+1. ~~Activer la **protection de `main`**~~ — ✅ fait le 2026-11-02, voir la section dédiée.
 2. Créer le **token Cloudflare** (modèle « Edit Cloudflare Workers ») et poser le secret `CLOUDFLARE_API_TOKEN`.
 3. **Déployer manuellement.**
 4. Lancer les **`curl -I`** du lot 4 (dont le 404 attendu sur `/_headers`).

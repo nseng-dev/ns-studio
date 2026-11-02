@@ -57,6 +57,13 @@ jobs:
       - name: Le profil est valide
         run: npm test
 
+      # Le Worker est le seul code que personne ne vérifiait : wrangler l'assemble avec esbuild,
+      # qui efface les types sans les contrôler. Cette étape couvre `apps/api/src` et
+      # `modules/profile/api/src`, puis les deux applications Angular. Elle construit d'abord le
+      # contrat, car c'est par son `dist/` que l'interface Angular le consomme.
+      - name: Les types tiennent
+        run: npm run typecheck
+
       - name: Build (contrat, puis interface Angular)
         run: npm run build
 

@@ -25,6 +25,7 @@
     "dev:profile": "npm run build:contract && npm run start --workspace @ns-studio/profile-app",
     "dev:web": "npm run build:contract && npm run start --workspace @ns-studio/web",
     "test": "node --import tsx --test modules/profile/contract/test/*.test.ts",
+    "typecheck": "npm run build:contract && tsc -p apps/api/tsconfig.json && tsc -p apps/web/tsconfig.app.json --noEmit && tsc -p apps/profile/tsconfig.typecheck.json",
     "verify:lockfile": "node scripts/verifie-lockfile.mjs",
     "deploy": "npm run build && wrangler deploy",
     "format": "prettier --write .",

@@ -92,9 +92,15 @@ export interface Profile {
   readonly misAJour: string;
 }
 
-/** Corps d'erreur uniforme de l'API. Un seul code aujourd'hui, la porte reste ouverte. */
+/**
+ * Corps d'erreur uniforme de l'API.
+ *
+ * Les deux codes correspondent aux deux seules façons dont l'API peut refuser : le contenu ne
+ * respecte plus son contrat (500), ou la route demandée n'existe pas (404). Le type les énumère
+ * pour que l'ajout d'un troisième cas se voie à la compilation, côté serveur comme côté client.
+ */
 export interface ErreurApi {
-  readonly code: 'PROFILE_INVALIDE';
+  readonly code: 'PROFILE_INVALIDE' | 'ROUTE_INCONNUE';
   readonly message: string;
   readonly erreurs?: readonly string[];
 }

@@ -8,13 +8,13 @@
 
 ## Tableau de bord
 
-|  Lot  | Intitulé                                  | Statut           | Branche                  | PR  | Notes                                                                                     |
-| :---: | ----------------------------------------- | ---------------- | ------------------------ | --- | ----------------------------------------------------------------------------------------- |
-| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare bloqué** : jeton OAuth expiré. |
-| **1** | Lockfile multi-plateforme + npm unique    | 🟡 **in-review** | `fix/lockfile`           | —   | Lock complet, **182 ajouts / 0 modif / 0 suppr**. Build identique octet pour octet.       |
-| **2** | Typage du Worker                          | ⬜ todo          | `fix/typecheck`          | —   | Après merge du lot 1.                                                                     |
-| **3** | Garde de déploiement, doc fidèle, licence | ⬜ todo          | `fix/doc-licence`        | —   | Après merge du lot 2.                                                                     |
-| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —   | Après merge du lot 3.                                                                     |
+|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                      |
+| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare bloqué** : jeton OAuth expiré.  |
+| **1** | Lockfile multi-plateforme + npm unique    | 🟡 **in-review** | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | **CI VERTE** (1re fois). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet. |
+| **2** | Typage du Worker                          | ⬜ todo          | `fix/typecheck`          | —                                                   | Après merge du lot 1.                                                                      |
+| **3** | Garde de déploiement, doc fidèle, licence | ⬜ todo          | `fix/doc-licence`        | —                                                   | Après merge du lot 2.                                                                      |
+| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                      |
 
 Statuts : ⬜ todo · 🔵 in-progress · 🟡 in-review · ✅ done
 

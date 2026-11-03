@@ -635,7 +635,7 @@ après `rm -rf node_modules && npm ci`, comparées par empreinte SHA-256 :
 
 ```
 0a1
-> 7e38a7b3ce174031e0d8274019bd23c9e7804438d756ea6cccd5e06123262c20  browser/_headers
+> 922dc4bc9bf5b578d8b612ec9d48ed331c51bc33c4481b24ba4f0293e57c234a  browser/_headers
 ```
 
 **Un seul écart : une ligne ajoutée.** Les 8 fichiers d'origine — `index.html` compris, ainsi que
@@ -671,11 +671,12 @@ Trois choses restent hors de portée d'ici le déploiement :
 
 1. que Cloudflare **applique** bien `_headers` aux réponses d'assets ;
 2. que `GET /_headers` ne renvoie **pas le contenu du fichier** — un fichier de configuration servi
-   publiquement est une fuite _(ajustement 5b)_. ⚠️ Le plan attendait un **404** ; avec
-   `not_found_handling: "single-page-application"`, un chemin inconnu rend `index.html` en **200**.
-   Si Cloudflare exclut `_headers` du manifeste d'assets — ce qu'il fait, mais c'est une propriété
-   de plateforme non vérifiable ici — le repli SPA s'applique et la réponse peut légitimement être
-   `200` + la coquille Angular. **Le critère est donc le corps de la réponse, pas son code.**
+   publiquement est une fuite _(ajustement 5b)_. ⚠️ Le plan attendait un **404**, et c'est un
+   critère faux ici : `wrangler.jsonc` déclare `not_found_handling: "single-page-application"`,
+   donc un chemin exclu du manifeste d'assets rend `index.html` en **200**. Un `200` n'est pas une
+   fuite, et un `curl -I` ne permet pas de trancher. **Le critère est le corps de la réponse :**
+   `curl -sS …/_headers | head -c 200` doit afficher `<!doctype html>…` et **jamais** les lignes
+   `X-Content-Type-Options…` du fichier. Attendu détaillé à l'étape 2, plus bas.
 3. ce que la CSP Report-Only **signale** dans la console, dans les **deux** documents : la shell et
    l'iframe `/remotes/profile/` _(ajustement 5c)_.
 
@@ -718,7 +719,7 @@ Les commandes exactes sont dans « Ce qui reste de ton côté », étapes 2 et 3
 | :----------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **0** — _préalable, à ne pas sauter_ | **Relever la version en production** : `npx wrangler login && npx wrangler deployments list && npx wrangler versions list`. Me coller la sortie. |
 |                **1**                 | **Déployer** : `npm run deploy` (les quatre gardes passent d'abord), ou _Actions → CI → Run workflow_ sur `main`.                                |
-|                **2**                 | **Relever les en-têtes** du lot 4 — `curl -I` ci-dessous, dont le **404 attendu** sur `/_headers`.                                               |
+|                **2**                 | **Relever les en-têtes** du lot 4 — `curl` ci-dessous, dont le contrôle que `/_headers` ne renvoie **pas le contenu du fichier**.                |
 |                **3**                 | **Lire la console** sur les deux documents — procédure ci-dessous. C'est ce relevé qui décidera du passage de la CSP en mode appliqué.           |
 
 > **Pourquoi l'étape 0 est un préalable et non une formalité.** L'archive du lot 0 ne couvre que
@@ -740,10 +741,8 @@ curl -sS -I https://ns.latech.workers.dev/remotes/profile/ \
 curl -sS -I https://ns.latech.workers.dev/api/profile \
   | grep -iE 'content-security|x-content-type|referrer|permissions|x-frame'
 
-# Le fichier de configuration ne doit PAS être servi. Le critère est le CONTENU, pas le code :
-# `not_found_handling: single-page-application` peut renvoyer 200 + la coquille Angular au lieu
-# d'un 404. Les deux conviennent ; ce qui ne conviendrait pas, c'est de lire « X-Content-Type… ».
-curl -sS -i https://ns.latech.workers.dev/_headers | head -20
+# Le fichier de configuration ne doit PAS être servi. Le critère est le CORPS, pas le code HTTP.
+curl -sS https://ns.latech.workers.dev/_headers | head -c 200
 
 # Non-régression du corps de l'API, en plus des en-têtes (comparaison structurelle, pas textuelle).
 curl -sS https://ns.latech.workers.dev/api/profile > /tmp/api-profile.json && python3 -c "
@@ -760,6 +759,19 @@ sys.exit(0 if a == b else 1)
 que le test de parité affirme sans pouvoir le prouver hors déploiement. Un écart sur `/api/profile`
 seul signale un problème de middleware ; un écart sur les trois premières, un `_headers` non pris
 en compte par la plateforme.
+
+**`curl -sS … /_headers | head -c 200` — l'attendu, précisément :**
+
+| Sortie                                                                                                   | Verdict                                                                  |
+| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `<!doctype html>` suivi du `<head>` de la shell Angular                                                  | ✅ **attendu.** Le fichier est exclu du manifeste, le repli SPA répond.  |
+| Une page d'erreur, ou une réponse vide                                                                   | ✅ acceptable. Le fichier n'est pas servi — c'est tout ce qui compte.    |
+| `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `Content-Security-Policy-Report-Only` | 🔴 **fuite.** Le fichier est servi tel quel : sa politique est publique. |
+
+**Le code HTTP n'est pas le critère.** `wrangler.jsonc` déclare
+`not_found_handling: "single-page-application"` : un chemin inconnu rend `index.html` en **200**.
+Un `200` est donc normal ici, et un `curl -I` seul — qui n'affiche que les en-têtes — ne permet pas
+de conclure. C'est le corps qu'il faut lire, d'où `head -c 200` plutôt que `-I`.
 
 ### Étape 3 — la console, sur les deux documents
 
@@ -778,6 +790,3 @@ qu'un à la fois.
 **Attendu le plus probable** : des violations `style-src` dues aux styles de composant qu'Angular
 injecte en `<style>` — c'est précisément la raison du Report-Only. Le critère de passage en mode
 appliqué (Phase 1) est **zéro ligne `[Report Only] Refused` dans les deux contextes**.
-
-3. Lancer les **`curl -I`** du lot 4 (dont le 404 attendu sur `/_headers`).
-4. **Vérifier la console** selon la procédure CSP Report-Only.

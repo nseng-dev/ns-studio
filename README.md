@@ -33,7 +33,7 @@ même dossier, et bougent ensemble.
 ns-studio/
 ├── .nvmrc                       22.23.2
 ├── wrangler.jsonc               assets + run_worker_first
-├── .github/workflows/ci.yml     build → tests → déploiement
+├── .github/workflows/ci.yml     gardes sur chaque PR ; déploiement manuel, depuis `main` seule
 │
 ├── packages/
 │   └── ui/        @ns-studio/ui              thème Angular Material, socle, impression
@@ -52,8 +52,10 @@ ns-studio/
 `contract/` est importé par l'API et par l'application profile. La shell, elle, ne compile pas le
 module : elle embarque simplement `/remotes/profile/`.
 
-> `apps/api` n'a ni `tsc`, ni `dist/`, ni script `build` — wrangler compile le TypeScript du
-> Worker lui-même.
+> `apps/api` n'a ni `dist/`, ni script `build` — wrangler compile le TypeScript du Worker
+> lui-même. Il a en revanche un `tsconfig.json`, qui n'émet rien : esbuild efface les types sans
+> les vérifier, donc le seul code serveur de la plateforme ne passerait sinon sous aucun contrôle
+> (`npm run typecheck`).
 
 ---
 
@@ -98,7 +100,9 @@ Un seul fichier : **`modules/profile/contract/src/data/profile.fr.json`**. L'éd
 npm test    # valide le contenu : dates, sections obligatoires, ordre antéchronologique
 ```
 
-La CI passe ce test avant tout déploiement : un profil cassé ne peut pas arriver en ligne.
+Ce test est une garde de déploiement, par **deux** chemins : le job `deploy` de la CI attend le job
+« Build et tests » (`needs: ci`), et `npm run deploy` le rejoue en local avant d'appeler wrangler.
+Un profil cassé ne peut donc pas arriver en ligne par l'un ou l'autre.
 
 ### Données personnelles — un choix, pas un oubli
 
@@ -109,6 +113,12 @@ champ pour les accueillir.
 La page est publique et le dépôt aussi : ces informations seraient indexées et moissonnées. En
 France, elles sont de toute façon déconseillées sur un profil, car elles ouvrent la porte à la
 discrimination. Seule l'adresse électronique est affichée.
+
+**Le permis de conduire, en revanche, est conservé — délibérément.** Le champ `permis` existe dans
+le type `Profil` et la donnée est publiée. Ce n'est pas une exception oubliée : la doctrine
+ci-dessus vise les **identifiants physiques**, ceux qui permettent de joindre ou de localiser une
+personne, ou de la trier sur son état civil. Un permis B est une qualification professionnelle,
+attendue dans les offres qui mentionnent des déplacements, et il ne désigne personne.
 
 ---
 
@@ -130,7 +140,14 @@ Pas de nouveau dépôt, pas de nouveau secret, pas de nouveau domaine.
 
 ## 5. Déployer
 
-Le déploiement est automatique : **tout push sur `main` met le site à jour.**
+**Un push ne déploie rien.** Le déploiement est un geste délibéré, jamais un effet de bord.
+
+### Depuis GitHub Actions
+
+_Actions → CI → Run workflow_, **sur `main` uniquement** : le job `deploy` est gardé par
+`github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'`. Choisir une autre
+branche dans le sélecteur ne déploie pas — le job est simplement sauté. Il attend par ailleurs que
+le job « Build et tests » soit vert (`needs: ci`).
 
 Prérequis, à faire une seule fois :
 
@@ -138,26 +155,40 @@ Prérequis, à faire une seule fois :
 2. Ce token posé en secret `CLOUDFLARE_API_TOKEN`, dans
    _Settings → Secrets and variables → Actions_.
 
-Pour déployer à la main :
+> ⚠️ **Ce secret n'existe pas encore dans ce dépôt.** Tant qu'il n'est pas posé, le job `deploy`
+> échoue s'il est déclenché : le déploiement se fait en local, par la commande ci-dessous.
+
+### Depuis un poste
 
 ```bash
 npm run deploy
 ```
 
+La commande n'est pas un raccourci vers `wrangler deploy` : elle rejoue d'abord les mêmes gardes
+que la CI — lockfile complet, tests du profil, vérification de types, build — et s'arrête à la
+première qui tombe. Rien ne part en production sans être passé par là.
+
+**Avant tout déploiement**, relever l'identifiant de la version en place
+(`npx wrangler deployments list`) : c'est la seule moitié du retour arrière que l'archive des
+fichiers ne couvre pas. Voir `docs/audit/suivi-phase-0.md`.
+
 ---
 
 ## 6. Les commandes
 
-| Commande              | Effet                                            |
-| --------------------- | ------------------------------------------------ |
-| `npm run dev`         | API + profile + shell, en parallèle              |
-| `npm run dev:api`     | L'API seule, sur 8787                            |
-| `npm run dev:profile` | Le micro front-end profile seul, sur 4201        |
-| `npm run dev:web`     | La shell seule, sur 4200                         |
-| `npm test`            | Valide le contenu du profil et le validateur     |
-| `npm run build`       | Contrat, profile remote, shell, puis composition |
-| `npm run deploy`      | Build, puis `wrangler deploy`                    |
-| `npm run format`      | Prettier sur tout le dépôt                       |
+| Commande                  | Effet                                                   |
+| ------------------------- | ------------------------------------------------------- |
+| `npm run dev`             | API + profile + shell, en parallèle                     |
+| `npm run dev:api`         | L'API seule, sur 8787                                   |
+| `npm run dev:profile`     | Le micro front-end profile seul, sur 4201               |
+| `npm run dev:web`         | La shell seule, sur 4200                                |
+| `npm test`                | Valide le contenu du profil et le validateur            |
+| `npm run typecheck`       | Worker, routes des modules et deux applications Angular |
+| `npm run verify:lockfile` | Le lock déclare bien ses binaires de plateforme         |
+| `npm run build`           | Contrat, profile remote, shell, puis composition        |
+| `npm run deploy`          | Les quatre gardes ci-dessus, puis `wrangler deploy`     |
+| `npm run format`          | Prettier sur tout le dépôt                              |
+| `npm run format:check`    | Vérifie le formatage sans rien réécrire                 |
 
 ---
 
@@ -167,5 +198,20 @@ Angular 22 (zoneless, signaux, `httpResource`) · Hono 4 · Cloudflare Workers �
 workspaces npm · GitHub Actions.
 
 Aucune bibliothèque de composants, aucun framework CSS : le thème sombre et la version
-imprimable tiennent en deux feuilles SCSS dans `@ns-studio/ui`. **Cmd+P produit un PDF propre —
-il n'y a pas de bouton « télécharger » à maintenir.**
+imprimable tiennent en deux feuilles SCSS dans `@ns-studio/ui` — `@page` en A4, fond blanc,
+corps 10,5 pt, et les URL des liens révélées après le texte.
+
+> ### ⚠️ L'impression depuis la shell est tronquée
+>
+> Il n'y a pas de bouton « télécharger » à maintenir, mais **`Cmd+P` sur `/profile` ne produit pas
+> un PDF complet**. La shell n'affiche pas le profil : elle l'encadre dans une `<iframe>`
+> (`apps/web/src/app/remote-frame/`) dont la hauteur est fixée à `100dvh`, et aucune règle
+> `@media print` ne lève cette contrainte. Un navigateur imprime une iframe dans la boîte qu'elle
+> occupe : le profil est donc coupé à la hauteur d'un écran.
+>
+> **Le contournement d'aujourd'hui** : imprimer le document du module, pas celui de la shell —
+> <https://ns.latech.workers.dev/remotes/profile/>. Là, les feuilles d'impression s'appliquent au
+> document entier.
+>
+> **Correction prévue en Phase 1** : règles `@media print` sur `.remote` (hauteur libérée) ou
+> redirection de l'impression vers le document encadré.

@@ -9,9 +9,14 @@ on:
   workflow_dispatch:
 
 # Un nouveau push sur une PR annule le run précédent : inutile de payer deux fois.
+#
+# Mais l'annulation est conditionnée au seul cas où elle est une économie. Sur une PR, interrompre
+# un run périmé ne coûte rien. Sur un déploiement — déclenché à la main, donc jamais en double par
+# accident — une interruption au milieu d'un envoi vers la production laisserait le site dans un
+# état indéterminé. Un push n'annule donc jamais un déploiement en cours.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
@@ -86,6 +91,11 @@ jobs:
   # `workflow_dispatch` seul : il faut ouvrir l'onglet Actions et cliquer. Un push ne déploie
   # plus rien, jamais.
   #
+  # `workflow_dispatch` ne suffisait pourtant pas : le sélecteur de branche de l'onglet Actions
+  # accepte **n'importe quelle** référence, donc une branche de travail à moitié faite pouvait
+  # partir en production. D'où la seconde condition sur `github.ref` : seule `main` — relue en PR
+  # et validée par le job `ci` — est déployable.
+  #
   # ⚠️ Le secret CLOUDFLARE_API_TOKEN N'EXISTE PAS encore dans ce dépôt — c'est la cause des
   # deux premiers échecs de CI (2026-09-10 et 09-11), avant même le problème de lockfile. Tant
   # qu'il n'est pas posé, ce job échouera s'il est déclenché : le déploiement se fait à la main,
@@ -93,7 +103,7 @@ jobs:
   # ---------------------------------------------------------------------------
   deploy:
     name: Déploiement sur Cloudflare Workers (manuel)
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     needs: ci
     runs-on: ubuntu-latest
 

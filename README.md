@@ -47,6 +47,7 @@ ns-studio/
     ├── api/       @ns-studio/api             le Worker : monte les routes des modules
     ├── profile/   @ns-studio/profile-app     le micro front-end profil
     └── web/       @ns-studio/web             la shell Angular : navigation + remotes
+        └── public/_headers                   en-têtes de sécurité des pages et des assets
 ```
 
 `contract/` est importé par l'API et par l'application profile. La shell, elle, ne compile pas le
@@ -56,6 +57,28 @@ module : elle embarque simplement `/remotes/profile/`.
 > lui-même. Il a en revanche un `tsconfig.json`, qui n'émet rien : esbuild efface les types sans
 > les vérifier, donc le seul code serveur de la plateforme ne passerait sinon sous aucun contrôle
 > (`npm run typecheck`).
+
+### Les en-têtes de sécurité tiennent en deux fichiers, pas un
+
+Une seule origine, mais **deux mécanismes** : la documentation Cloudflare est explicite — les
+en-têtes déclarés dans `_headers` ne s'appliquent pas aux réponses produites par le code du
+Worker.
+
+| Ce qui répond                             | Qui pose les en-têtes                                 |
+| ----------------------------------------- | ----------------------------------------------------- |
+| `/`, `/profile`, `/remotes/*`, les assets | `apps/web/public/_headers` (Workers Static Assets)    |
+| `/api/*`                                  | `secureHeaders` de Hono, dans `apps/api/src/index.ts` |
+
+Deux déclarations pour une même politique dérivent tôt ou tard. `apps/api/test/en-tetes.test.ts`
+l'interdit : il lit `_headers`, interroge le Worker, et compare en-tête par en-tête. Un `curl -I`
+ne le dirait qu'après un déploiement ; ce test le dit en CI.
+
+**La CSP est en `Content-Security-Policy-Report-Only`** : elle signale sans bloquer. Les styles de
+composant qu'Angular injecte en `<style>` imposent `'unsafe-inline'` dans `style-src` ; le passage
+en mode appliqué attend un nonce ou l'extraction de ces styles — Phase 1.
+`Strict-Transport-Security` n'est **pas** posé : c'est le seul en-tête dont l'effet survive à son
+retrait, le navigateur le mémorisant plusieurs mois. Il se pose une fois le nom de domaine
+définitif arrêté.
 
 ---
 
@@ -182,7 +205,7 @@ fichiers ne couvre pas. Voir `docs/audit/suivi-phase-0.md`.
 | `npm run dev:api`         | L'API seule, sur 8787                                   |
 | `npm run dev:profile`     | Le micro front-end profile seul, sur 4201               |
 | `npm run dev:web`         | La shell seule, sur 4200                                |
-| `npm test`                | Valide le contenu du profil et le validateur            |
+| `npm test`                | Contenu du profil, validateur, en-têtes de l'API        |
 | `npm run typecheck`       | Worker, routes des modules et deux applications Angular |
 | `npm run verify:lockfile` | Le lock déclare bien ses binaires de plateforme         |
 | `npm run build`           | Contrat, profile remote, shell, puis composition        |

@@ -34,5 +34,5 @@
   // Le module profil n'a pas de `tsconfig` à lui : ses routes sont vérifiées ici, avec le Worker
   // qui les monte. C'est le même programme en production, ce doit être le même programme pour
   // `tsc`.
-  "include": ["src/**/*.ts", "../../modules/profile/api/src/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "../../modules/profile/api/src/**/*.ts"]
 }

@@ -22,6 +22,12 @@ export interface Lien {
  * naissance, état civil, nationalité — est **volontairement absent**. La page est publique et
  * le dépôt l'est aussi : ces informations seraient indexées et moissonnées. En France elles
  * sont de toute façon déconseillées sur un profil, car elles ouvrent la porte à la discrimination.
+ *
+ * `permis` est la seule exception, et elle est **délibérée** : la doctrine ci-dessus vise les
+ * identifiants physiques, ceux qui permettent de joindre ou de localiser quelqu'un, ou de le
+ * trier sur son état civil. Un permis de conduire est une qualification professionnelle, attendue
+ * dans les offres qui mentionnent des déplacements, et il ne désigne personne. Ne pas le retirer
+ * au prétexte qu'il « ressemble » aux champs écartés.
  */
 export interface Profil {
   readonly nom: string;

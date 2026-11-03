@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Plateforme NS Studio : une shell Angular, un Worker Cloudflare, des modules indépendants.",
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=22.22.3 <23",
@@ -27,7 +28,7 @@
     "test": "node --import tsx --test modules/profile/contract/test/*.test.ts",
     "typecheck": "npm run build:contract && tsc -p apps/api/tsconfig.json && tsc -p apps/web/tsconfig.app.json --noEmit && tsc -p apps/profile/tsconfig.typecheck.json",
     "verify:lockfile": "node scripts/verifie-lockfile.mjs",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "npm run verify:lockfile && npm test && npm run typecheck && npm run build && wrangler deploy",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

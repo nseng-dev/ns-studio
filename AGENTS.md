@@ -23,8 +23,11 @@ Use Node from `.nvmrc` first: `nvm use`.
 - `npm run dev:api`: starts the Worker API in watch mode.
 - `npm run build`: builds contract, profile remote, shell, then composes remotes.
 - `npm run test`: runs Node tests for the profile contract.
+- `npm run typecheck`: type-checks the Worker, the module routes, and both Angular apps.
+- `npm run verify:lockfile`: asserts the lockfile declares its platform binaries.
 - `npm run format`: formats the repository with Prettier.
-- `npm run deploy`: builds, composes remotes, and deploys with Wrangler.
+- `npm run deploy`: replays the four guards above (lockfile, tests, types, build), then deploys with
+  Wrangler. A push never deploys; see `CLAUDE.md`.
 
 ## Coding Style & Naming Conventions
 
@@ -38,7 +41,9 @@ Tests use Node’s built-in test runner with `tsx`. Place contract tests in `mod
 
 ## Commit & Pull Request Guidelines
 
-Recent commits use short imperative messages, for example `Fix visible profile background animation`. Follow that style: describe the user-visible or architectural change in one line.
+Use **Conventional Commits**, for example `fix: compléter le lockfile multi-plateforme`. `main` is
+squash-merged, so **the pull request title becomes the commit message on `main`**: write it in
+Conventional Commits when you open the PR, not when you merge it.
 
 Pull requests should include a concise summary, validation commands run, deployment notes when relevant, and screenshots for visible UI changes. Link related issues when available and call out any Cloudflare or routing changes explicitly.
 

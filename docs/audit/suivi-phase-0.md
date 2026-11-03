@@ -8,13 +8,13 @@
 
 ## Tableau de bord
 
-|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                                                   |
-| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare bloqué** : jeton OAuth expiré.                               |
-| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**      | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet.                  |
-| **2** | Typage du Worker                          | 🟡 **in-review** | `fix/typecheck`          | [#2](https://github.com/nseng-dev/ns-studio/pull/2) | **CI verte** (11/11 étapes). `apps/api` et `modules/profile/api` couverts par `tsc`, aucune erreur de type applicative. |
-| **3** | Garde de déploiement, doc fidèle, licence | ⬜ todo          | `fix/doc-licence`        | —                                                   | **Périmètre élargi** — voir « Reporté au lot 3 ». Après merge du lot 2.                                                 |
-| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                                                   |
+|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                                                    |
+| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare non fait** : déplacé en fin de phase, étape 0 du déploiement. |
+| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**      | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet.                   |
+| **2** | Typage du Worker                          | ✅ **done**      | `fix/typecheck`          | [#2](https://github.com/nseng-dev/ns-studio/pull/2) | Fusionnée en **squash** le 2026-11-02 (`90bc08b`). CI verte (11/11). Aucune erreur de type applicative.                  |
+| **3** | Garde de déploiement, doc fidèle, licence | 🟡 **in-review** | `fix/doc-licence`        | [#3](https://github.com/nseng-dev/ns-studio/pull/3) | **CI verte** (11/11 étapes, 46 s). Aucune ligne de code applicatif. Lock identique à `main`.                             |
+| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                                                    |
 
 Statuts : ⬜ todo · 🔵 in-progress · 🟡 in-review · ✅ done
 
@@ -77,7 +77,19 @@ Contenu de `~/backups/ns-studio-avant-lot1-2026-11-02/` :
 | `api-profile-live.json`                  | corps servi par l'API                                                               |
 | `commit.txt`, `git-status.txt`           | `2e97a59`, arbre propre hormis `docs/audit/rapport-audit.md` non suivi              |
 
-### 🔴 Bloqué — relevé de la version en production
+### ⏭️ Relevé de la version en production — déplacé en fin de phase
+
+> **Décision du 2026-11-03 : on arrête de réessayer.** Trois tentatives, trois fois le même échec,
+> pour la même cause — une session wrangler que seul toi peux renouveler. Une quatrième tentative
+> n'apporterait aucune information nouvelle ; la relancer à chaque lot ne fait que remplir le suivi
+> d'un échec déjà documenté.
+>
+> Ce relevé devient **l'étape 0 de ton déploiement manuel** : voir « Ce qui reste de ton côté »,
+> en fin de ce document. C'est le seul moment où l'identifiant de retour arrière devient
+> indispensable — et le seul moment où le relever a un sens, puisqu'il doit désigner la version
+> **encore en place** juste avant qu'elle ne soit remplacée.
+>
+> Le diagnostic ci-dessous est conservé : il explique pourquoi la commande échoue, et quoi lancer.
 
 `npx wrangler deployments list` échoue :
 
@@ -110,7 +122,7 @@ ouverts : **rien n'a été relevé, rien n'a été inventé.**
 > Ces trois champs restent vides **délibérément**. Les inventer donnerait un faux filet de sécurité :
 > un `wrangler rollback` sur un identifiant erroné échouerait au pire moment.
 
-**À lancer par toi**, dans ton onglet Terminal :
+**À lancer par toi**, en fin de phase, juste avant de déployer (étape 0 du déploiement) :
 
 ```bash
 cd /Users/nara/Desktop/Nara/Dev/Nara-diy-dev/GitHub/ns-studio && npx wrangler login && npx wrangler deployments list && npx wrangler versions list
@@ -118,10 +130,11 @@ cd /Users/nara/Desktop/Nara/Dev/Nara-diy-dev/GitHub/ns-studio && npx wrangler lo
 
 Me coller la sortie **réelle** : je remplirai le tableau ci-dessus.
 
-> **Impact sur la Phase 0 : faible mais non nul.** Aucun déploiement n'aura lieu pendant la Phase 0,
-> donc aucun retour arrière ne devrait être nécessaire. Mais tant que l'identifiant n'est pas relevé,
-> la sauvegarde est **incomplète** (cf. portée de l'archive ci-dessus) : il faut le relever
-> **avant le déploiement manuel de fin de phase**, pas après.
+> **Impact sur la Phase 0 : nul jusqu'au déploiement.** Aucun déploiement n'a lieu pendant la
+> Phase 0, donc aucun retour arrière n'est nécessaire d'ici là — et un identifiant relevé
+> aujourd'hui serait de toute façon périmé le jour du déploiement. Mais au moment du déploiement,
+> la sauvegarde est **incomplète** sans lui (cf. portée de l'archive ci-dessus) : il se relève
+> **avant** l'envoi, pas après.
 
 ---
 
@@ -147,10 +160,10 @@ Réglée sur GitHub par le propriétaire du dépôt. Règles en vigueur :
 
 ---
 
-## Reporté au lot 3 — périmètre élargi
+## Reporté au lot 3 — périmètre élargi · ✅ appliqué
 
-Relevé en relisant le fichier CI installé par le lot 1. Rien ici n'est appliqué dans le lot 2 : ces points
-partent dans la PR `fix/doc-licence`.
+Relevé en relisant le fichier CI installé par le lot 1. Rien n'en était appliqué dans le lot 2 : ces points
+partent dans la PR `fix/doc-licence`. **Tous sont en place — voir « Lot 3 — Détail ».**
 
 ### `.github/workflows/ci.yml`
 
@@ -166,7 +179,11 @@ partent dans la PR `fix/doc-licence`.
 - les sept règles de protection de `main` ci-dessus ;
 - **titre de PR = commit de squash = Conventional Commits** ;
 - les deux règles de CI ci-dessus : **un déploiement manuel ne part que de `main`**, et **un push n'annule
-  jamais un déploiement en cours**.
+  jamais un déploiement en cours** ;
+- _(demandé le 2026-11-03)_ en **§1, tout en haut de la partie 1** : « Au début de chaque session, lis
+  d'abord `docs/audit/suivi-phase-<n>.md` et `docs/automation/lecons.md` : c'est là qu'est l'état du
+  travail, pas dans la mémoire de la session. » Une session a repris le lot 2 sans contexte et sans
+  perte, précisément parce que ces deux fichiers portaient l'état — la règle entérine ce qui a marché.
 
 ---
 
@@ -356,6 +373,154 @@ modes de la garde repassent ensuite au vert, dont `--compare` contre la photo du
 
 ---
 
+## Lot 3 — Détail
+
+### Le problème
+
+Trois objets distincts, tous sur le même thème : **ce que le dépôt dit de lui-même n'était pas vrai.**
+
+1. **La garde de déploiement était incomplète.** Le lot 1 avait coupé le lien « push ⇒ déploiement »,
+   mais `workflow_dispatch` seul laisse le sélecteur de branche de l'onglet Actions envoyer
+   **n'importe quelle** référence en production ; et le même bloc `concurrency` servait les PR et les
+   déploiements, donc un push sur `main` pouvait **annuler un envoi en cours**.
+2. **Le README affirmait trois choses fausses**, dont une sur la production elle-même.
+3. **Aucune licence**, alors que le dépôt est public — donc, juridiquement, « tous droits réservés ».
+
+### Le résultat
+
+| Critère                                                                                      | Verdict                                                                                                    |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `npm ci` · `verify:lockfile` · `test` · `typecheck` · `build` · `--dry-run` · `format:check` | ✅ tout vert sous Node 22.23.2 / npm 12.2.0                                                                |
+| Lockfile                                                                                     | ✅ 193 optionnelles déclarées / **0 absente**                                                              |
+| Build inchangé                                                                               | ✅ **identique octet pour octet** à l'archive du lot 0 (8/8)                                               |
+| Réponses de l'API inchangées                                                                 | ✅ `/api/profile` identique au corps relevé en production ; `/api/inconnu` → `{"code":"ROUTE_INCONNUE",…}` |
+| Code applicatif modifié                                                                      | ✅ **aucune ligne** — le seul changement dans `src/` est un commentaire                                    |
+
+Le lot ne touche que de la documentation, de la configuration et un fichier de licence. La preuve que
+rien n'a bougé est l'empreinte du build, pas la relecture du diff.
+
+### Les deux gardes de CI
+
+```yaml
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+```
+
+```yaml
+if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+```
+
+Les deux sont **invérifiables localement** : seul GitHub évalue ces expressions. Ce que la CI de cette
+PR prouve, c'est que le fichier reste valide et que le job `ci` passe ; que le job `deploy` soit sauté
+sur une branche autre que `main` ne sera constaté qu'au premier déclenchement manuel. La syntaxe YAML
+est néanmoins validée par Prettier, qui parse le fichier.
+
+### `npm run deploy` devient une garde, pas un raccourci
+
+```
+verify:lockfile → test → typecheck → build → wrangler deploy
+```
+
+Avant : `build → wrangler deploy`. Le README prétendait que « la CI passe ce test avant tout
+déploiement » — c'était faux par les deux chemins : la CI ne déployait pas, et la commande locale ne
+testait pas. L'affirmation est maintenant vraie des deux côtés : `needs: ci` pour le job, et la chaîne
+ci-dessus pour le poste.
+
+### Les trois affirmations fausses du README
+
+| Où   | Ce qui était écrit                                                            | Ce qui est vrai                                                                                                                                               |
+| ---- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `§5` | « Le déploiement est automatique : tout push sur `main` met le site à jour. » | **Un push ne déploie rien.** Déclenchement manuel depuis `main` seule, ou `npm run deploy` en local. Et le secret `CLOUDFLARE_API_TOKEN` n'existe pas encore. |
+| `§3` | « La CI passe ce test avant tout déploiement »                                | Vrai **depuis ce lot**, par deux chemins (`needs: ci` et la chaîne de `npm run deploy`).                                                                      |
+| `§7` | « **Cmd+P produit un PDF propre** »                                           | **Tronqué depuis la shell** : l'iframe est plafonnée à `100dvh` et aucune règle `@media print` ne la libère. Contournement : imprimer `/remotes/profile/`.    |
+
+> **Comment la troisième a été établie** : par lecture du code, pas par observation. `apps/web/src/app/remote-frame/remote-frame.scss`
+> fixe `min-block-size: 100dvh` sur `.remote` et sur l'hôte ; un `grep` sur `@media print` dans
+> `apps/web/src`, `apps/profile/src`, `modules/profile/ui/src` et `packages/ui/src` ne renvoie que trois
+> blocs — `tokens.scss` (couleurs), `base.scss` (corps, `@page`, URL des liens) et `profile-page.scss` —
+> **aucun ne cible l'iframe**. Un navigateur imprime une iframe dans la boîte qu'elle occupe : le profil
+> est donc coupé à la hauteur d'un écran.
+>
+> **Ce que je n'ai pas fait** : constater le PDF. L'impression n'est pas observable depuis ce poste
+> (pas de `wrangler dev`, et l'aperçu d'impression n'est pas pilotable). La correction est renvoyée en
+> Phase 1, et le README décrit le contournement vérifiable aujourd'hui.
+
+Deux inexactitudes de plus ont été corrigées au passage, relevées en relisant : l'arborescence
+décrivait la CI comme « build → tests → déploiement », et une note affirmait qu'`apps/api` « n'a pas de
+`tsc` » — plus vrai depuis le lot 2. Le tableau des commandes a reçu `typecheck`, `verify:lockfile` et
+`format:check`, qui en étaient absents.
+
+### Q6 — le permis est conservé, délibérément
+
+`modules/profile/contract/src/contract.ts` et `README.md §3` portent désormais la même justification :
+la doctrine « pas de données personnelles » vise les **identifiants physiques** — ceux qui permettent de
+joindre, de localiser ou de trier sur l'état civil. Un permis B est une qualification professionnelle,
+attendue dans les offres qui mentionnent des déplacements, et il ne désigne personne.
+
+Écrit dans le contrat et non seulement dans le README, avec la consigne explicite de **ne pas le retirer
+par analogie** : sans cela, la prochaine relecture de la doctrine le supprimera comme un oubli.
+
+### Licence
+
+`LICENSE` — MIT, `Copyright (c) 2026 nseng-dev` — et `"license": "MIT"` dans `package.json`.
+
+> **Pourquoi le lock n'a pas été touché.** L'entrée racine du lock porte déjà un `engines` différent de
+> celui de `package.json` (`>=22.22.3` contre `>=22.22.3 <23` + `npm`), héritage assumé du lot 2 : npm
+> resynchronise ces champs, mais en supprimant `@angular/animations` au passage. `npm ci` ne contrôle ni
+> `license` ni `engines`, et la garde du lock non plus — vérifié : `npm ci` passe, 193/0. **Aucune
+> édition du lock n'était donc nécessaire, et aucune n'a été faite** : le lock est identique à celui de
+> `main`.
+
+### `CLAUDE.md` — nouveau
+
+Importe `@AGENTS.md`, puis **deux parties nettement séparées** :
+
+| Partie                             | Contenu                                                                                                                                                                                                                                                                                                                |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1 — Standard commun** (9 règles) | lecture du suivi en début de session · commandes de vérification · npm 12.2.0 partout · boucle _branche → checks → PR → arrêt_ · interdiction de déployer · une seule PR à la fois · Conventional Commits et titre de PR · 7 règles de protection de `main` · 2 règles de CI · journal des leçons · règles du lockfile |
+| **2 — Spécifique ns-studio**       | architecture (Worker unique, `run_worker_first`, shell + iframe) · workerd/macOS 12.6 et ses quatre conséquences · 11 points sensibles                                                                                                                                                                                 |
+
+La règle demandée le 2026-11-03 est en **§1**, en tête de la partie 1 : _« Au début de chaque session,
+lis d'abord `docs/audit/suivi-phase-<n>.md` et `docs/automation/lecons.md` : c'est là qu'est l'état du
+travail, pas dans la mémoire de la session. »_
+
+`AGENTS.md` a été corrigé sur les deux points où il contredisait désormais la réalité : la description
+de `npm run deploy`, et le style de commit (« short imperative messages » → Conventional Commits, avec
+la règle du titre de PR). Les deux sont des faits sur le dépôt, pas des préférences : les laisser faux
+aurait produit la même dérive que le README.
+
+### Fichiers touchés
+
+| Fichier                                    | Changement                                                                                   |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| `LICENSE`                                  | **nouveau** — MIT, `Copyright (c) 2026 nseng-dev`                                            |
+| `CLAUDE.md`                                | **nouveau** — importe `@AGENTS.md`, standard commun + spécifique ns-studio                   |
+| `.github/workflows/ci.yml`                 | les deux gardes : `deploy` depuis `main` seule, `cancel-in-progress` limité aux PR           |
+| `package.json`                             | `deploy` = 4 gardes puis `wrangler deploy` ; `"license": "MIT"`                              |
+| `README.md`                                | 3 affirmations fausses corrigées, Q6, 2 inexactitudes relevées en relisant, tableau complété |
+| `AGENTS.md`                                | `npm run deploy` et `npm run typecheck`/`verify:lockfile` ; Conventional Commits             |
+| `modules/profile/contract/src/contract.ts` | **Q6** — commentaire : le champ `permis` est une exception délibérée                         |
+| `package-lock.json`                        | **non touché** (voir ci-dessus)                                                              |
+
+### La CI confirme
+
+PR [#3](https://github.com/nseng-dev/ns-studio/pull/3), exécution
+[41550525245](https://github.com/nseng-dev/ns-studio/actions/runs/41550525245) : **11 étapes sur 11 au
+vert en 46 s**, et job de déploiement **`skipping`** — ce qui vérifie au passage la première des deux
+nouvelles gardes dans le seul cas qu'une PR peut éprouver (`pull_request` ≠ `workflow_dispatch`). La
+condition sur `github.ref` ne sera, elle, éprouvée qu'au premier déclenchement manuel.
+
+### Observation sans conséquence
+
+`wrangler deploy --dry-run` annonce « Read **10** files from the assets directory » alors que
+`apps/web/dist/web/browser` en contient **8**. L'écart n'est pas une régression de ce lot : le dossier
+est byte-identique à l'archive du lot 0, donc son contenu n'a pas pu changer ici. Non expliqué,
+non bloquant — probablement des alias de chemin comptés par wrangler. À vérifier si un jour le compte
+d'assets devient un critère.
+
+---
+
 ## Journal des décisions
 
 | Date       | Décision                                                                                                                                                                                                           |
@@ -367,6 +532,11 @@ modes de la garde repassent ensuite au vert, dont `--compare` contre la photo du
 | 2026-11-03 | `worker-configuration.d.ts` **non généré** en Phase 0 : `wrangler types` exige workerd, indisponible sur ce poste, et le Worker ne lit aucun binding. Décision reportée au jour où il lira `env`.                  |
 | 2026-11-03 | Vérification de types **indépendante de la construction** : le Worker vise les sources du contrat ; un `tsconfig.typecheck.json` dédié évite de toucher la configuration d'`ng build`.                             |
 | 2026-11-03 | Toute addition au lock reste **chirurgicale** tant que `@angular/animations` doit y être retenue à la main : `npm install --package-lock-only` la supprime.                                                        |
+| 2026-11-03 | **On arrête de réessayer le relevé wrangler.** Trois échecs, une seule cause, hors de ma portée. Déplacé en **étape 0 du déploiement manuel** — le seul moment où l'identifiant est à la fois nécessaire et juste. |
+| 2026-11-03 | Licence **MIT** (`Copyright (c) 2026 nseng-dev`). Le lock n'est pas resynchronisé pour autant : `license` n'est contrôlé ni par `npm ci` ni par la garde, et toucher au lock supprimerait `@angular/animations`.   |
+| 2026-11-03 | `npm run deploy` devient une **garde** (lockfile → test → typecheck → build) et non un raccourci. C'est ce qui rend vraie l'affirmation du README sur le chemin local, comme `needs: ci` la rend vraie en CI.      |
+| 2026-11-03 | La limite d'impression est **documentée, pas corrigée**, en Phase 0 : la corriger changerait le comportement visible. Contournement décrit (`/remotes/profile/`), correction renvoyée en Phase 1.                  |
+| 2026-11-03 | `AGENTS.md` est corrigé là où il devient faux, plutôt que seulement surchargé par `CLAUDE.md` : un document de référence faux dérive, même si un autre le contredit.                                               |
 
 ---
 
@@ -374,6 +544,19 @@ modes de la garde repassent ensuite au vert, dont `--compare` contre la photo du
 
 1. ~~Activer la **protection de `main`**~~ — ✅ fait le 2026-11-02, voir la section dédiée.
 2. Créer le **token Cloudflare** (modèle « Edit Cloudflare Workers ») et poser le secret `CLOUDFLARE_API_TOKEN`.
-3. **Déployer manuellement.**
-4. Lancer les **`curl -I`** du lot 4 (dont le 404 attendu sur `/_headers`).
-5. **Vérifier la console** selon la procédure CSP Report-Only.
+
+### Le déploiement manuel, en deux temps
+
+|                Étape                 | Quoi                                                                                                                                             |
+| :----------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **0** — _préalable, à ne pas sauter_ | **Relever la version en production** : `npx wrangler login && npx wrangler deployments list && npx wrangler versions list`. Me coller la sortie. |
+|                **1**                 | **Déployer** : `npm run deploy` (les quatre gardes passent d'abord), ou _Actions → CI → Run workflow_ sur `main`.                                |
+
+> **Pourquoi l'étape 0 est un préalable et non une formalité.** L'archive du lot 0 ne couvre que
+> les fichiers statiques : elle ne contient ni le code du Worker, ni sa configuration, ni ses
+> bindings. Le seul retour arrière complet est `wrangler rollback <id>` — et cet `<id>` est celui
+> de la version **que le déploiement va remplacer**. Relevé après l'envoi, il désigne la nouvelle
+> version : il ne sert plus à rien. C'est la seule étape de cette liste qui ne se rattrape pas.
+
+3. Lancer les **`curl -I`** du lot 4 (dont le 404 attendu sur `/_headers`).
+4. **Vérifier la console** selon la procédure CSP Report-Only.

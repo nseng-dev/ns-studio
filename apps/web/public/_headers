@@ -1,0 +1,21 @@
+# En-têtes de sécurité des documents et des assets statiques.
+#
+# Ce fichier est lu par Cloudflare Workers Static Assets, pas par le Worker : les en-têtes
+# déclarés ici ne s'appliquent **pas** aux réponses produites par le code (`/api/*`). Celles-là
+# passent par le middleware `secureHeaders` de Hono, dans `apps/api/src/index.ts`. Les deux
+# mécanismes sont donc nécessaires, et `apps/api/test/en-tetes.test.ts` vérifie qu'ils ne
+# divergent pas.
+#
+# Limites de la plateforme : 100 règles, 2 000 caractères par ligne.
+# Ce fichier ne doit jamais être servi : sa politique serait publique. Le critère est le **corps**
+# de la réponse, pas son code HTTP — `wrangler.jsonc` déclare
+# `not_found_handling: "single-page-application"`, donc un chemin exclu du manifeste d'assets rend
+# `index.html` en 200. Ce qui compte : `GET /_headers` ne renvoie pas les lignes ci-dessous.
+# Non vérifié à ce jour — rien n'est encore déployé. Commande et attendu : docs/audit/suivi-phase-0.md.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=()
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; form-action 'self'

@@ -8,13 +8,13 @@
 
 ## Tableau de bord
 
-|  Lot  | Intitulé                                  | Statut             | Branche                  | PR                                                  | Notes                                                                                                                    |
-| :---: | ----------------------------------------- | ------------------ | ------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **0** | Assurer le retour arrière                 | ✅ **done**        | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare non fait** : déplacé en fin de phase, étape 0 du déploiement. |
-| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**        | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet.                   |
-| **2** | Typage du Worker                          | ✅ **done**        | `fix/typecheck`          | [#2](https://github.com/nseng-dev/ns-studio/pull/2) | Fusionnée en **squash** le 2026-11-02 (`90bc08b`). CI verte (11/11). Aucune erreur de type applicative.                  |
-| **3** | Garde de déploiement, doc fidèle, licence | 🔵 **in-progress** | `fix/doc-licence`        | —                                                   | **Périmètre élargi** — voir « Reporté au lot 3 ». En cours.                                                              |
-| **4** | En-têtes de sécurité                      | ⬜ todo            | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                                                    |
+|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                                                    |
+| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare non fait** : déplacé en fin de phase, étape 0 du déploiement. |
+| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**      | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet.                   |
+| **2** | Typage du Worker                          | ✅ **done**      | `fix/typecheck`          | [#2](https://github.com/nseng-dev/ns-studio/pull/2) | Fusionnée en **squash** le 2026-11-02 (`90bc08b`). CI verte (11/11). Aucune erreur de type applicative.                  |
+| **3** | Garde de déploiement, doc fidèle, licence | 🟡 **in-review** | `fix/doc-licence`        | [#3](https://github.com/nseng-dev/ns-studio/pull/3) | **CI verte** (11/11 étapes, 46 s). Aucune ligne de code applicatif. Lock identique à `main`.                             |
+| **4** | En-têtes de sécurité                      | ⬜ todo          | `fix/headers`            | —                                                   | Après merge du lot 3.                                                                                                    |
 
 Statuts : ⬜ todo · 🔵 in-progress · 🟡 in-review · ✅ done
 
@@ -502,6 +502,14 @@ aurait produit la même dérive que le README.
 | `AGENTS.md`                                | `npm run deploy` et `npm run typecheck`/`verify:lockfile` ; Conventional Commits             |
 | `modules/profile/contract/src/contract.ts` | **Q6** — commentaire : le champ `permis` est une exception délibérée                         |
 | `package-lock.json`                        | **non touché** (voir ci-dessus)                                                              |
+
+### La CI confirme
+
+PR [#3](https://github.com/nseng-dev/ns-studio/pull/3), exécution
+[41550525245](https://github.com/nseng-dev/ns-studio/actions/runs/41550525245) : **11 étapes sur 11 au
+vert en 46 s**, et job de déploiement **`skipping`** — ce qui vérifie au passage la première des deux
+nouvelles gardes dans le seul cas qu'une PR peut éprouver (`pull_request` ≠ `workflow_dispatch`). La
+condition sur `github.ref` ne sera, elle, éprouvée qu'au premier déclenchement manuel.
 
 ### Observation sans conséquence
 

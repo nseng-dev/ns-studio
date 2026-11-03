@@ -8,13 +8,13 @@
 
 ## Tableau de bord
 
-|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                                                    |
-| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare non fait** : déplacé en fin de phase, étape 0 du déploiement. |
-| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**      | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet.                   |
-| **2** | Typage du Worker                          | ✅ **done**      | `fix/typecheck`          | [#2](https://github.com/nseng-dev/ns-studio/pull/2) | Fusionnée en **squash** le 2026-11-02 (`90bc08b`). CI verte (11/11). Aucune erreur de type applicative.                  |
-| **3** | Garde de déploiement, doc fidèle, licence | ✅ **done**      | `fix/doc-licence`        | [#3](https://github.com/nseng-dev/ns-studio/pull/3) | Fusionnée en **squash** le 2026-11-03 (`6e8f93e`). CI verte (11/11, 46 s). Aucune ligne de code applicatif.              |
-| **4** | En-têtes de sécurité                      | 🟡 **in-review** | `fix/headers`            | —                                                   | Build identique à l'archive du lot 0 — **8/8 fichiers**, `_headers` en seul ajout. 15 tests (7 → 15).                    |
+|  Lot  | Intitulé                                  | Statut           | Branche                  | PR                                                  | Notes                                                                                                                        |
+| :---: | ----------------------------------------- | ---------------- | ------------------------ | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **0** | Assurer le retour arrière                 | ✅ **done**      | _(aucune — sans commit)_ | —                                                   | Archive vérifiée contre la prod (8/8). **Relevé Cloudflare non fait** : déplacé en fin de phase, étape 0 du déploiement.     |
+| **1** | Lockfile multi-plateforme + npm unique    | ✅ **done**      | `fix/lockfile`           | [#1](https://github.com/nseng-dev/ns-studio/pull/1) | Fusionnée le 2026-11-02 (`833fe47`). 182 ajouts / 0 modif / 0 suppr. Build identique octet pour octet.                       |
+| **2** | Typage du Worker                          | ✅ **done**      | `fix/typecheck`          | [#2](https://github.com/nseng-dev/ns-studio/pull/2) | Fusionnée en **squash** le 2026-11-02 (`90bc08b`). CI verte (11/11). Aucune erreur de type applicative.                      |
+| **3** | Garde de déploiement, doc fidèle, licence | ✅ **done**      | `fix/doc-licence`        | [#3](https://github.com/nseng-dev/ns-studio/pull/3) | Fusionnée en **squash** le 2026-11-03 (`6e8f93e`). CI verte (11/11, 46 s). Aucune ligne de code applicatif.                  |
+| **4** | En-têtes de sécurité                      | 🟡 **in-review** | `fix/headers`            | [#4](https://github.com/nseng-dev/ns-studio/pull/4) | **CI verte** (11/11, 51 s). Build identique à l'archive du lot 0 — **8/8 fichiers**, `_headers` en seul ajout. 7 → 15 tests. |
 
 Statuts : ⬜ todo · 🔵 in-progress · 🟡 in-review · ✅ done
 
@@ -654,6 +654,14 @@ annonce maintenant « Read **11** files » pour **9**. L'écart est resté à **
 nombre de **sous-dossiers** de `browser/` (`remotes/` et `remotes/profile/`). Wrangler compte donc
 les répertoires avec les fichiers. Deux points de mesure concordants, pas une lecture du code de
 wrangler : l'explication est une inférence, suffisante pour clore une observation non bloquante.
+
+### La CI confirme
+
+PR [#4](https://github.com/nseng-dev/ns-studio/pull/4), exécution
+[41715825848](https://github.com/nseng-dev/ns-studio/actions/runs/41715825848) : **11 étapes sur 11
+au vert en 51 s**, job de déploiement **`skipping`**. L'étape « Le profil est valide » exécute
+désormais 15 tests au lieu de 7 : la parité `_headers` ↔ Worker est donc vérifiée en CI, sur une
+machine qui n'est pas ce poste.
 
 ### Ce qui n'est vérifiable qu'après déploiement
 
